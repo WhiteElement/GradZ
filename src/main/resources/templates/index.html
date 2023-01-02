@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Gradio</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Gradio</h1>
+
+    <div id="availableSchoolClasses">
+        <th:block th:unless="${allSchoolClasses} == null">
+
+            <ul th:each="SchoolClass : ${allSchoolClasses}">
+
+                <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}" th:text="${SchoolClass.className} + ' - ' + ${SchoolClass.subject}"></a>
+                <button th:data-id="${SchoolClass.Id}" th:data-name="${SchoolClass.className}" th:data-subject="${SchoolClass.subject}"
+                        onclick="openEditSchoolClassWindow(this.getAttribute('data-id'), this.getAttribute('data-name'), this.getAttribute('data-subject') )">editieren</button>
+                <div class="editSchoolClass" th:id="'editSchoolClassWindow' + ${SchoolClass.Id}">
+
+                    <label for="">Klasse: </label>
+                    <input type="text" th:id="'editClassName' + ${SchoolClass.Id}">
+                    <label for="">Fach: </label>
+                    <input type="text" th:id="'editSubject' + ${SchoolClass.Id}">
+                    <button th:data-id=${SchoolClass.Id} onclick="updateSchoolClass(this.getAttribute('data-id'))">ändern</button>
+
+                </div>
+                
+            </ul>
+
+        </th:block>
+
+    </div>
+
+    <button onclick="openNewSchoolClassWindow()">neue Klasse anlegen</button>
+
+    <div id="newSchoolClass">
+        <h2>neue Klasse erstellen</h2>
+        <form action="#" method="POST" th:object="${newSchoolClass}">
+            
+            <label>Klasse: </label>
+            <input type="text" th:field="*{className}"><br>
+
+            <label>Fach: </label>
+            <input type="text" th:field="*{subject}">
+
+            <input type="submit" value="anlegen">
+        </form>
+    </div>
+
+</body>
+
+<script>
+    function closeAll() {
+        $(".editSchoolClass").hide();
+        $('#newSchoolClass').hide();
+    }
+
+    closeAll();
+
+    function editSelector(id) {
+        var selector = "#editSchoolClassWindow" + id;
+        return selector;
+    }
+
+    function openEditSchoolClassWindow(id, name, subject) {
+        closeAll();
+        var selector = "#editSchoolClassWindow" + id;
+        $(selector).toggle();
+
+        $(selector + ' #editClassName' + id).val(name);
+        $(selector + ' #editSubject' + id).val(subject);
+    }
+
+    function openNewSchoolClassWindow() {
+        closeAll();
+        $('#newSchoolClass').toggle();
+    }
+
+    function updateSchoolClass(id) {
+        var SchoolClassFormData = {
+            Id : id,
+            className : $(editSelector(id) + ' #editClassName' + id).val(),
+            subject : $(editSelector(id) + ' #editSubject' + id).val()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/updateSchoolClass",
+            data: SchoolClassFormData,
+        })
+        .done(function() {
+            window.location.replace(window.location.href);
+        });
+    }
+
+
+</script>
+</html>
