@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></title>
+    <script th:src="@{/js/actions.js}"></script>
 </head>
 <body>
-$END$
+<h1 th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
+<button>Name / Fach ändern</button>
+<div>
+    <label for="">Klasse:</label>
+    <input type="text">
+    <label for="">Fach:</label>
+    <input type="text">
+    <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
+</div>
+    <section>
+        <p>Schüler: 14</p>
+        <p>Noten</p>
+        <ul>
+           <p>schriftlich: 2</p>
+           <p>mündlich: 1</p>
+        </ul>
+    </section>
+
+    <section>
+
+        <button>neuer Schüler</button>
+        <div>
+            <label for="">Vorname</label>
+            <input type="text">
+            <label for="">Nachname</label>
+            <input type="text">
+            <button>anlegen</button>
+        </div>
+
+        <table>
+            <th>#</th>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>schriftlich</th>
+            <th>mündlich</th>
+            <th>schriftlich</th>
+            <th>mündlich</th>
+            <th>gesamt</th>
+
+            <tbody>
+            <td>1</td>
+            <td>Hans</td>
+            <td>Peter</td>
+            <td>3</td>
+            <td>2</td>
+            <td>3</td>
+            <td>2</td>
+            <td>2,5</td>
+
+            </tbody>
+        </table>
+
+    </section>
+
+
 </body>
 </html>
