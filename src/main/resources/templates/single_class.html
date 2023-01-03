@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script th:src="@{/js/actions.js}"></script>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+
 </head>
 <body>
-<h1 th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
-<button>Name / Fach ändern</button>
-<div>
+<h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
+<button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
+<div id="editSchoolClass">
     <label for="">Klasse:</label>
-    <input type="text">
+    <input type="text" id="className">
     <label for="">Fach:</label>
-    <input type="text">
+    <input type="text" id="subject">
     <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
 </div>
     <section>
-        <p>Schüler: 14</p>
+        <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
         <p>Noten</p>
         <ul>
            <p>schriftlich: 2</p>
@@ -26,13 +29,13 @@
 
     <section>
 
-        <button>neuer Schüler</button>
-        <div>
+        <button onclick="openNewStudentWindow()">neuer Schüler</button>
+        <div id="newStudent">
             <label for="">Vorname</label>
-            <input type="text">
+            <input type="text" id="firstName">
             <label for="">Nachname</label>
-            <input type="text">
-            <button>anlegen</button>
+            <input type="text" id="lastName">
+            <button onclick="createNewStudent()">anlegen</button>
         </div>
 
         <table>
