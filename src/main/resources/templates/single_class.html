@@ -18,13 +18,35 @@
     <input type="text" id="subject">
     <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
 </div>
-    <section>
-        <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
-        <p>Noten</p>
-        <ul>
-           <p>schriftlich: 2</p>
-           <p>mündlich: 1</p>
-        </ul>
+    <section id="overview">
+        <div>
+            <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
+            <p>Noten</p>
+            <ul>
+               <p th:text="'schriftlich: ' + ${#lists.size(writtenGradeTests)}">schriftlich: 2</p>
+               <p th:text="'mündlich: ' + ${#lists.size(oralGradeTests)}">mündlich: 1</p>
+
+            </ul>
+        </div>
+        <div>
+            <button onclick="window.location.href=window.location.href + '/students'">Klassenliste anzeigen</button><br/>
+            <button onclick="showHelperContent()">Note anlegen</button>
+        </div>
+        <div id="helpercontent">
+            <h3>Neue Note</h3>
+            <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentSchoolClass.Id})}" th:object="${newGradeTest}">
+                <input type="radio" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
+                <label for="written">schriftlich</label>
+                <input type="radio" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
+                <label for="oral">mündlich</label><br>
+
+                <label for="">Name:</label>
+                <input type="text" th:field="*{testName}"><br>
+                <label for="">Beschreibung:</label>
+                <input type="text" th:field="*{testDescription}"><br>
+                <input type="submit" value="anlegen">
+            </form>
+        </div>
     </section>
 
     <section>

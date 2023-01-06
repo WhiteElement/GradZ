@@ -1,5 +1,8 @@
 package com.manu.GradeR.SchoolClass;
 
+import com.manu.GradeR.GradeTest.GradeTest;
+import com.manu.GradeR.GradeTest.GradeTestRepository;
+import com.manu.GradeR.GradeTest.GradeTestType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,9 @@ public class SchoolClassController {
 
     @Autowired
     SchoolClassRepository schoolClassRepository;
+
+    @Autowired
+    GradeTestRepository gradeTestRepository;
 
     @GetMapping("/")
     public String showSchoolClassPage(Model model) {
@@ -47,7 +53,11 @@ public class SchoolClassController {
 
         SchoolClass currentSchoolClass = schoolClassRepository.findById(id).get();
 
+        model.addAttribute("newGradeTest", new GradeTest());
         model.addAttribute("currentSchoolClass", currentSchoolClass);
+        model.addAttribute("writtenGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass));
+        model.addAttribute("oralGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
+
 
         return "single_class";
     }

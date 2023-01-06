@@ -57,3 +57,7 @@ function createNewStudent() {
             location.reload();
     });
 }
+
+function showHelperContent() {
+    $("#helpercontent").toggle();
+}
