@@ -30,7 +30,6 @@ public class GradeTest {
     @JsonIgnore
     //TODO JSON Ignores????
     @ManyToOne (fetch = FetchType.LAZY)
-    //@JoinColumn(name="GradeTestId", referencedColumnName = "Id") OPTIONAL GEHT AUTOMATISCH
     private SchoolClass schoolClass;
 
     public GradeTest(Long id, String testName, String testDescription, GradeTestType gradeType, List<Grade> grades) {
