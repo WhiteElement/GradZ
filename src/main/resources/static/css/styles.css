@@ -12,3 +12,8 @@
     align-items: center;
     gap: 40px;
 }
+
+.coloredHeader {
+    background-color :green;
+    cursor : pointer
+}

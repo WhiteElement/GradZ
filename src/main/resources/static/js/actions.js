@@ -61,3 +61,7 @@ function createNewStudent() {
 function showHelperContent() {
     $("#helpercontent").toggle();
 }
+
+function openGradeTest(gradeTestId) {
+    window.location.replace(window.location.href + '/' + gradeTestId);
+}
