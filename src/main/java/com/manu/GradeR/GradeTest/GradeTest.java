@@ -1,5 +1,6 @@
 package com.manu.GradeR.GradeTest;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.SchoolClass.SchoolClass;
@@ -17,14 +18,18 @@ public class GradeTest {
 
     private String testName;
     private String testDescription;
+
+    @JsonIgnore
+    @Enumerated(EnumType.STRING)
     private GradeTestType gradeType;
 
     @JsonIgnore
     @OneToMany (cascade = CascadeType.ALL, mappedBy = "gradeTest")
     private List<Grade> grades = new ArrayList<>();
 
+    @JsonIgnore
+    //TODO JSON Ignores????
     @ManyToOne (fetch = FetchType.LAZY)
-    //@JoinColumn(name="GradeTestId", referencedColumnName = "Id") OPTIONAL GEHT AUTOMATISCH
     private SchoolClass schoolClass;
 
     public GradeTest(Long id, String testName, String testDescription, GradeTestType gradeType, List<Grade> grades) {
@@ -83,5 +88,21 @@ public class GradeTest {
 
     public void setGrades(List<Grade> grades) {
         this.grades = grades;
+    }
+
+    @Override
+    public String toString() {
+        return "GradeTest{" +
+                "Id=" + Id +
+                ", testName='" + testName + '\'' +
+                ", testDescription='" + testDescription + '\'' +
+                ", gradeType=" + gradeType +
+                ", grades=" + grades +
+                ", schoolClass=" + schoolClass +
+                '}';
+    }
+
+    public void assignToSchoolClass(SchoolClass schoolClass) {
+        this.schoolClass = schoolClass;
     }
 }

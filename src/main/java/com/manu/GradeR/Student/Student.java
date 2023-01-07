@@ -54,4 +54,35 @@ public class Student {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public SchoolClass getSchoolClass() {
+        return schoolClass;
+    }
+
+    public void setSchoolClass(SchoolClass schoolClass) {
+        this.schoolClass = schoolClass;
+    }
+
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "Id=" + Id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", schoolClass=" + schoolClass +
+                ", grades=" + grades +
+                '}';
+    }
+
+    public void addToClass(SchoolClass schoolClass) {
+        this.schoolClass = schoolClass;
+    }
 }
