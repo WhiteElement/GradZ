@@ -3,6 +3,7 @@ package com.manu.GradeR.SchoolClass;
 import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestRepository;
 import com.manu.GradeR.GradeTest.GradeTestType;
+import com.manu.GradeR.Student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class SchoolClassController {
 
     @Autowired
     GradeTestRepository gradeTestRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
 
     @GetMapping("/")
     public String showSchoolClassPage(Model model) {
@@ -57,7 +61,7 @@ public class SchoolClassController {
         model.addAttribute("currentSchoolClass", currentSchoolClass);
         model.addAttribute("writtenGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass));
         model.addAttribute("oralGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
-
+        model.addAttribute("students", studentRepository.findAllFromClassOrderByLastName(currentSchoolClass));
 
         return "single_class";
     }

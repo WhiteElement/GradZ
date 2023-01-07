@@ -81,4 +81,8 @@ public class Student {
                 ", grades=" + grades +
                 '}';
     }
+
+    public void addToClass(SchoolClass schoolClass) {
+        this.schoolClass = schoolClass;
+    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8" >
     <title th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script th:src="@{/js/actions.js}"></script>
@@ -61,24 +61,35 @@
         </div>
 
         <table>
-            <th>#</th>
-            <th>Vorname</th>
-            <th>Nachname</th>
-            <th>schriftlich</th>
-            <th>mündlich</th>
-            <th>schriftlich</th>
-            <th>mündlich</th>
-            <th>gesamt</th>
+            <thead>
+                <tr>
+                    <th rowspan="2">#</th>
+                    <th rowspan="2">Vorname</th>
+                    <th rowspan="2">Nachname</th>
+                    <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:colspan="${#lists.size(writtenGradeTests)}" th:text="'schriftliche Noten'"></th>
+                    <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:colspan="${#lists.size(oralGradeTests)}" th:text="'mündliche Noten'"></th>
+                </tr>
+                <tr>
+                    <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}" th:text="${gradeTest.testName}"></th>
+                    <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}" th:text="${gradeTest.testName}"></th>
+                </tr>
+            </thead>
 
-            <tbody>
-            <td>1</td>
-            <td>Hans</td>
-            <td>Peter</td>
-            <td>3</td>
-            <td>2</td>
-            <td>3</td>
-            <td>2</td>
-            <td>2,5</td>
+<!--            <th>schriftlich</th>-->
+<!--            <th>mündlich</th>-->
+<!--            <th>gesamt</th>-->
+
+            <tbody th:unless="${#lists.isEmpty(students)}" th:each="student, iterStat : ${students}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.lastName}"></td>
+
+
+<!--            <td>3</td>-->
+<!--            <td>2</td>-->
+<!--            <td>3</td>-->
+<!--            <td>2</td>-->
+<!--            <td>2,5</td>-->
 
             </tbody>
         </table>
