@@ -16,12 +16,21 @@
     </thead>
 
     <tbody>
-<!--        <tr th:each="student : ${studentDao}">-->
-<!--            <td th:text="${iterStat.count}"></td>-->
-<!--            <td th:text="${student.firstName}"></td>-->
-<!--            <td th:text="${student.lastName}"></td>-->
-<!--        <td><input type="text" th:field="*{Grade}"></td>-->
-<!--        </tr>-->
+        <form method="POST" th:object="${studentDaosWrapper}">
+
+            <tr th:each="student, iterStat : *{StudentGradeDaoList}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.lastName}"</td>
+                <td><input type="text"
+                           th:field="*{StudentGradeDaoList[__${iterStat.index}__].Grade}"></td>
+                <input type="hidden"
+                              th:field="*{StudentGradeDaoList[__${iterStat.index}__].Id}">
+                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].firstName}"></td>
+                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].lastName}"></td>
+            </tr>
+
+            <input type="submit" value="Änderungen speichern">
         </form>
 
     </tbody>

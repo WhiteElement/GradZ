@@ -1,6 +1,8 @@
 package com.manu.GradeR.GradeTest;
 
 import com.manu.GradeR.Dao.StudentGradeDao;
+import com.manu.GradeR.Dao.StudentGradeDaoService;
+import com.manu.GradeR.Dao.StudentGradeDaoWrapper;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import com.manu.GradeR.SchoolClass.SchoolClassRepository;
 import com.manu.GradeR.Student.StudentRepository;
@@ -26,6 +28,9 @@ public class GradeTestController {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
+    StudentGradeDaoService studentGradeDaoService;
+
     @PostMapping("/schoolclasses/{schoolclassid}/newgradetest")
     public String createNewGradeTest(RedirectAttributes redirectAttributes,
                                      @PathVariable Long schoolclassid,
@@ -45,9 +50,21 @@ public class GradeTestController {
                                     @PathVariable Long schoolclassid,
                                     @PathVariable Long gradetestid) {
 
-        System.out.println("schoolclassid: " + schoolclassid + ", gradetestid: " + gradetestid);
-        List<StudentGradeDao> studentGradeDaos = studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid,schoolclassid);
-        model.addAttribute("studentDao", studentGradeDaos);
+        StudentGradeDaoWrapper studentGradeDaoWrapper = new StudentGradeDaoWrapper();
+        studentGradeDaoWrapper.setStudentGradeDaoList(studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid,schoolclassid));
+        model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
+        return "grade_test";
+    }
+
+    @PostMapping("/schoolclasses/{schoolclassid}/{gradetestid}")
+    public String updateGradesInGradeTest(StudentGradeDaoWrapper studentGradeDaoWrapper, Model model,
+                                          @PathVariable Long gradetestid) {
+
+        List<StudentGradeDao> studentGradeDaos = studentGradeDaoWrapper.getStudentGradeDaoList();
+
+        studentGradeDaos.forEach(s -> studentGradeDaoService.updateStudentsGradeFromDao(s,gradetestid));
+
+        model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
         return "grade_test";
     }
 }
