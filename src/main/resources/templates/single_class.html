@@ -73,18 +73,18 @@
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        th:text="${gradeTest.testName}"></th>
+                        title="Noten eintragen" th:text="${gradeTest.testName}"></th>
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        th:text="${gradeTest.testName}"></th>
+                        title="Noten eintragen" th:text="${gradeTest.testName}"></th>
                 </tr>
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        th:text="${gradeTest.testDescription}"></th>
+                        title="Noten eintragen" th:text="${gradeTest.testDescription}"></th>
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        th:text="${gradeTest.testDescription}"></th>
+                        title="Noten eintragen" th:text="${gradeTest.testDescription}"></th>
                 </tr>
             </thead>
 

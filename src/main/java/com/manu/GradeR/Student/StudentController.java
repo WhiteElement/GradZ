@@ -31,8 +31,6 @@ public class StudentController {
         return "student_list";
     }
 
-    //TODO um Umlaute kümmern
-
     @PostMapping("schoolclasses/{schoolclassid}/newstudent")
     public ResponseEntity newStudent(@PathVariable Long schoolclassid, Student studentFormData) {
 

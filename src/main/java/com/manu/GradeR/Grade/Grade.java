@@ -50,4 +50,12 @@ public class Grade {
     public void setGradeTest(GradeTest gradeTest) {
         this.gradeTest = gradeTest;
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

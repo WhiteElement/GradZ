@@ -1,7 +1,11 @@
 package com.manu.GradeR.GradeTest;
 
+import com.manu.GradeR.Dao.StudentGradeDao;
+import com.manu.GradeR.Dao.StudentGradeDaoService;
+import com.manu.GradeR.Dao.StudentGradeDaoWrapper;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import com.manu.GradeR.SchoolClass.SchoolClassRepository;
+import com.manu.GradeR.Student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class GradeTestController {
@@ -18,6 +24,12 @@ public class GradeTestController {
 
     @Autowired
     SchoolClassRepository schoolClassRepository;
+
+    @Autowired
+    StudentRepository studentRepository;
+
+    @Autowired
+    StudentGradeDaoService studentGradeDaoService;
 
     @PostMapping("/schoolclasses/{schoolclassid}/newgradetest")
     public String createNewGradeTest(RedirectAttributes redirectAttributes,
@@ -38,6 +50,21 @@ public class GradeTestController {
                                     @PathVariable Long schoolclassid,
                                     @PathVariable Long gradetestid) {
 
+        StudentGradeDaoWrapper studentGradeDaoWrapper = new StudentGradeDaoWrapper();
+        studentGradeDaoWrapper.setStudentGradeDaoList(studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid,schoolclassid));
+        model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
+        return "grade_test";
+    }
+
+    @PostMapping("/schoolclasses/{schoolclassid}/{gradetestid}")
+    public String updateGradesInGradeTest(StudentGradeDaoWrapper studentGradeDaoWrapper, Model model,
+                                          @PathVariable Long gradetestid) {
+
+        List<StudentGradeDao> studentGradeDaos = studentGradeDaoWrapper.getStudentGradeDaoList();
+
+        studentGradeDaos.forEach(s -> studentGradeDaoService.updateStudentsGradeFromDao(s,gradetestid));
+
+        model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
         return "grade_test";
     }
 }

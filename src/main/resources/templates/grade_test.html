@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-funktioniert, lol
+
+<table>
+    <thead>
+
+        <th>#</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Note</th>
+    </thead>
+
+    <tbody>
+        <form method="POST" th:object="${studentDaosWrapper}">
+
+            <tr th:each="student, iterStat : *{StudentGradeDaoList}">
+                <td th:text="${iterStat.count}"></td>
+                <td th:text="${student.firstName}"></td>
+                <td th:text="${student.lastName}"</td>
+                <td><input type="text"
+                           th:field="*{StudentGradeDaoList[__${iterStat.index}__].Grade}"></td>
+                <input type="hidden"
+                              th:field="*{StudentGradeDaoList[__${iterStat.index}__].Id}">
+                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].firstName}"></td>
+                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].lastName}"></td>
+            </tr>
+
+            <input type="submit" value="Änderungen speichern">
+        </form>
+
+    </tbody>
+</table>
+
 </body>
 </html>
