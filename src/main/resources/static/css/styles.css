@@ -17,3 +17,7 @@
     background-color :green;
     cursor : pointer
 }
+
+.desc {
+    font-size : 15px;
+}

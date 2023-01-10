@@ -3,8 +3,11 @@ package com.manu.GradeR.GradeTest;
 import com.manu.GradeR.Dao.StudentGradeDao;
 import com.manu.GradeR.Dao.StudentGradeDaoService;
 import com.manu.GradeR.Dao.StudentGradeDaoWrapper;
+import com.manu.GradeR.Grade.Grade;
+import com.manu.GradeR.Grade.GradeRepository;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import com.manu.GradeR.SchoolClass.SchoolClassRepository;
+import com.manu.GradeR.Student.Student;
 import com.manu.GradeR.Student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,9 @@ public class GradeTestController {
     @Autowired
     StudentGradeDaoService studentGradeDaoService;
 
+    @Autowired
+    GradeRepository gradeRepository;
+
     @PostMapping("/schoolclasses/{schoolclassid}/newgradetest")
     public String createNewGradeTest(RedirectAttributes redirectAttributes,
                                      @PathVariable Long schoolclassid,
@@ -40,6 +46,13 @@ public class GradeTestController {
         GradeTest gradeTest = gradeTestFormData;
         gradeTest.assignToSchoolClass(schoolClass);
         gradeTestRepository.save(gradeTest);
+
+        for (Student student : schoolClass.getStudents()) {
+            Grade grade = new Grade();
+            grade.setGradeTest(gradeTest);
+            grade.setStudent(student);
+            gradeRepository.save(grade);
+        }
 
         redirectAttributes.addAttribute("schoolclassid", schoolclassid);
         return "redirect:/schoolclasses/{schoolclassid}";

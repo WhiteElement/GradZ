@@ -1,0 +1,9 @@
+bugs
+-------
+- doppelte anzahl students bei 1er parameter in url: http://localhost:8080/schoolclasses/1/1
+
+
+
+todos
+-------
+- null grades in db/controller eingefügt -> schauen, dass das beim Mainview in die Tabelle kommt.

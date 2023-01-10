@@ -25,6 +25,11 @@ public class Grade {
         this.gradeTest = gradeTest;
     }
 
+    //CONSTRUCTOR NECESSARY????
+    public Grade(Float grade) {
+        Grade = grade;
+    }
+
     public Grade(){}
 
     public Long getId() {

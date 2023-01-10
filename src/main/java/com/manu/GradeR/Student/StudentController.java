@@ -1,5 +1,8 @@
 package com.manu.GradeR.Student;
 
+import com.manu.GradeR.Grade.Grade;
+import com.manu.GradeR.Grade.GradeRepository;
+import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import com.manu.GradeR.SchoolClass.SchoolClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class StudentController {
     @Autowired
     SchoolClassRepository schoolClassRepository;
 
+    @Autowired
+    GradeRepository gradeRepository;
+
     @GetMapping("schoolclasses/{schoolclassid}/students")
     public String showStudentList(Model model, @PathVariable Long schoolclassid) {
 
@@ -38,6 +44,15 @@ public class StudentController {
         Student student = studentFormData;
         student.addToClass(schoolClass);
         studentRepository.save(student);
+
+        if(schoolClass.getGradeTests().size() != 0) {
+            for (GradeTest gradeTest : schoolClass.getGradeTests()) {
+                Grade grade = new Grade();
+                grade.setGradeTest(gradeTest);
+                grade.setStudent(student);
+                gradeRepository.save(grade);
+            }
+        }
 
         return new ResponseEntity(HttpStatus.OK);
     }
