@@ -96,6 +96,7 @@
                 <td th:text="${iterStat.count}"></td>
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
+                <td th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
 
 
             </tbody>

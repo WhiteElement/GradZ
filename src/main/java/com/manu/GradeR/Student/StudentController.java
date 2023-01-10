@@ -47,10 +47,13 @@ public class StudentController {
 
         if(schoolClass.getGradeTests().size() != 0) {
             for (GradeTest gradeTest : schoolClass.getGradeTests()) {
-                Grade grade = new Grade();
-                grade.setGradeTest(gradeTest);
-                grade.setStudent(student);
-                gradeRepository.save(grade);
+                //if notwendig?
+                //if( !gradeRepository.GradeEntryExists(gradeTest.getId(), student.getId()) ) {
+                    Grade grade = new Grade();
+                    grade.setGradeTest(gradeTest);
+                    grade.setStudent(student);
+                    gradeRepository.save(grade);
+               // }
             }
         }
 

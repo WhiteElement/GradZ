@@ -63,9 +63,7 @@ public class Student {
         this.schoolClass = schoolClass;
     }
 
-    public List<Grade> getGrades() {
-        return grades;
-    }
+    public List<Grade> getGrades() {return grades; }
 
     public void setGrades(List<Grade> grades) {
         this.grades = grades;
