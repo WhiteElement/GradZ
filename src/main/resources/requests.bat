@@ -5,7 +5,7 @@ curl -X POST -d "className=Klasse+5r" -d "subject=Deutsch" http://localhost:8080
 curl -X POST -d "className=Klasse+7a" -d "subject=Biologie" http://localhost:8080/
 
 
-::Create a shitton of Students
+::Create Students
 ::
 curl -X POST -d "firstName=Christian" -d "lastName=Maier" http://localhost:8080/schoolclasses/1/newstudent
 curl -X POST -d "firstName=Manuel" -d "lastName=Brusche" http://localhost:8080/schoolclasses/1/newstudent
@@ -15,7 +15,7 @@ curl -X POST -d "firstName=Michelle" -d "lastName=Tränk" http://localhost:8080/
 curl -X POST -d "firstName=David" -d "lastName=Agrat" http://localhost:8080/schoolclasses/1/newstudent
 curl -X POST -d "firstName=Xenia" -d "lastName=Sterk" http://localhost:8080/schoolclasses/1/newstudent
 
-::Create a shitton of Students Klasse 2
+::Create Students Klasse 2
 ::
 curl -X POST -d "firstName=Christian2" -d "lastName=Maier2" http://localhost:8080/schoolclasses/2/newstudent
 curl -X POST -d "firstName=Manuel2" -d "lastName=Brusche2" http://localhost:8080/schoolclasses/2/newstudent

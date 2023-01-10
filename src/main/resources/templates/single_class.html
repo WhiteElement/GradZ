@@ -80,10 +80,10 @@
                 </tr>
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
-                        th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
+                        th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable desc" th:data-id="${gradeTest.Id}"
                         title="Noten eintragen" th:text="${gradeTest.testDescription}"></th>
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
-                        th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
+                        th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable desc" th:data-id="${gradeTest.Id}"
                         title="Noten eintragen" th:text="${gradeTest.testDescription}"></th>
                 </tr>
             </thead>
@@ -96,8 +96,23 @@
                 <td th:text="${iterStat.count}"></td>
                 <td th:text="${student.firstName}"></td>
                 <td th:text="${student.lastName}"></td>
+                <td th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
+
+
             </tbody>
         </table>
+<table>
+        <tbody>
+<!--        <tr>-->
+<!--            <td th:text="${test.firstName}"></td>-->
+<!--            <td th:text="${test.lastName}"></td>-->
+<!--            <td th:each="grade : ${test.writtenGrades}" th:text="${grade.grade}"></td>-->
+<!--        </tr>-->
+
+        </tbody>
+</table>
+
+
 
     </section>
 

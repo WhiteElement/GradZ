@@ -1,6 +1,7 @@
 package com.manu.GradeR.Student;
 
 import com.manu.GradeR.Dao.StudentGradeDao;
+import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,15 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     )
     public List<StudentGradeDao> getStudentsWithGradesFromSpecificGradeTest(@Param("gradetestid") Long gradetestid,
                                                                             @Param("schoolclassid") Long schoolclassid);
+
+    @Query("select new com.manu.GradeR.Grade.Grade(g.Grade)" +
+            " from Student s left join Grade g" +
+            " on s.Id = g.student.Id" +
+            " and g.gradeTest.Id = :gradetestid or g.gradeTest.Id = null" +
+            " where s.schoolClass.Id = :schoolclassid" +
+            " order by s.lastName asc"
+    )
+    public List<Grade> getGrades(@Param("gradetestid") Long gradetestid,
+                                @Param("schoolclassid") Long schoolclassid);
+
 }

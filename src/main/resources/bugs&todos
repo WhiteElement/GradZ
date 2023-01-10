@@ -1,0 +1,15 @@
+bugs
+-------
+x- doppelte anzahl students bei 1er parameter in url: http://localhost:8080/schoolclasses/1/1
+
+
+
+todos
+-------
+x- null grades in db/controller eingefügt -> schauen, dass das beim Mainview in die Tabelle kommt.
+x   -> bookmark: hier muss bei einer neuen Note geschaut werden, dass er sie updated
+- back buttons
+- alle kommentare durschauen
+- services einfügen
+- styling
+- lehrer anlegen (login etc)

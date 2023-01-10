@@ -1,8 +1,6 @@
 package com.manu.GradeR.Grade;
 
-import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestRepository;
-import com.manu.GradeR.Student.Student;
 import com.manu.GradeR.Student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +24,10 @@ public class GradeController {
     public ResponseEntity<?> addSingleGrade(Grade gradeFormData,
                                             @PathVariable Long gradetestid,
                                             @PathVariable Long studentid) {
-        System.out.println(gradeFormData.getGrade());
-        Grade grade = gradeFormData;
-        Student student = studentRepository.getReferenceById(studentid);
-        GradeTest gradeTest = gradeTestRepository.getReferenceById(gradetestid);
 
-        grade.setStudent(student);
-        grade.setGradeTest(gradeTest);
+        Grade grade = gradeRepository.getGradeByStudentIdAndGradeTestId(studentid, gradetestid);
 
+        grade.setGrade(gradeFormData.getGrade());
         gradeRepository.save(grade);
 
         return ResponseEntity.ok().build();
