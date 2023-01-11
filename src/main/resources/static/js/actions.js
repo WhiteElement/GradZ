@@ -65,3 +65,13 @@ function showHelperContent() {
 function openGradeTest(gradeTestId) {
     window.location.replace(window.location.href + '/' + gradeTestId);
 }
+
+function goBackLevels(slashesToRemove) {
+
+    var url = window.location.href;
+    for(let i = 0; i < slashesToRemove; i++){
+        var slashPos = url.lastIndexOf("/");
+        url = url.substring(0,slashPos);
+    }
+    window.location.replace(url);
+}
