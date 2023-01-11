@@ -63,9 +63,12 @@ public class GradeTestController {
                                     @PathVariable Long schoolclassid,
                                     @PathVariable Long gradetestid) {
 
+        GradeTest gradeTest = gradeTestRepository.findById(gradetestid).get();
+
         StudentGradeDaoWrapper studentGradeDaoWrapper = new StudentGradeDaoWrapper();
         studentGradeDaoWrapper.setStudentGradeDaoList(studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid,schoolclassid));
         model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
+        model.addAttribute("currentGradeTest", gradeTest);
         return "grade_test";
     }
 

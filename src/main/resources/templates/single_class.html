@@ -10,6 +10,7 @@
 
 </head>
 <body>
+<button onclick="goBackLevels(2)">zurück</button>
 <h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
 <button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
 <div id="editSchoolClass">
@@ -111,8 +112,6 @@
 
         </tbody>
 </table>
-
-
 
     </section>
 

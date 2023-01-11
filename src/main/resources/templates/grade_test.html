@@ -2,13 +2,22 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="${currentGradeTest.testName} + ' - ' + ${currentGradeTest.schoolClass.className}"></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script th:src="@{/js/actions.js}"></script>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
 </head>
 <body>
+<button onclick="goBackLevels(1)">zurück</button>
+
+<h1 th:text="${currentGradeTest.testName}"></h1>
+<h2 th:text="${currentGradeTest.testDescription}"></h2>
+<p th:text="${currentGradeTest.schoolClass.className} + ' - ' + ${currentGradeTest.schoolClass.subject}"></p>
 
 <table>
     <thead>
-
         <th>#</th>
         <th>Vorname</th>
         <th>Nachname</th>
