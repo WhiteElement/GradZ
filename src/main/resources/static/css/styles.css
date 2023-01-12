@@ -14,10 +14,20 @@
 }
 
 .coloredHeader {
-    background-color :green;
+    background-color : #ADD8E6 !important;
     cursor : pointer
 }
 
 .desc {
     font-size : 15px;
+}
+
+.weighting {
+    display : flex;
+    justify-content : flex-start;
+    gap: 40px;
+}
+
+.weightingnumber {
+    vertical-align:top;
 }

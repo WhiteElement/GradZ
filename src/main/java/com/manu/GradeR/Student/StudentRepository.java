@@ -34,4 +34,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     public List<Grade> getGrades(@Param("gradetestid") Long gradetestid,
                                 @Param("schoolclassid") Long schoolclassid);
 
+
 }

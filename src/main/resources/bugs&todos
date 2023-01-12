@@ -6,9 +6,14 @@ bugs
 todos
 -------
 - averages (für student/pro arbeit)
-x- back buttons
+    x -option für alle gleich in einer "kategorie"
+    x-back button
+
+- noten senden in single_grade view: ERROR
+
 - alle kommentare durschauen
 - services einfügen
 - styling
 - lehrer anlegen (login etc)
 - klassenliste machen
+- input control /bindingresult has errors....

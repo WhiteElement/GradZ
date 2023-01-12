@@ -18,6 +18,7 @@ public class GradeTest {
 
     private String testName;
     private String testDescription;
+    private Float weighting;
 
     @JsonIgnore
     @Enumerated(EnumType.STRING)
@@ -31,6 +32,7 @@ public class GradeTest {
     //TODO JSON Ignores????
     @ManyToOne (fetch = FetchType.LAZY)
     private SchoolClass schoolClass;
+
 
     public GradeTest(Long id, String testName, String testDescription, GradeTestType gradeType, List<Grade> grades) {
         Id = id;
@@ -104,5 +106,13 @@ public class GradeTest {
 
     public void assignToSchoolClass(SchoolClass schoolClass) {
         this.schoolClass = schoolClass;
+    }
+
+    public Float getWeighting() {
+        return weighting;
+    }
+
+    public void setWeighting(Float weighting) {
+        this.weighting = weighting;
     }
 }

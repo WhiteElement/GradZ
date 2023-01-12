@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script th:src="@{/js/actions.js}"></script>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Gewichtung</title>
+</head>
+<body>
+<button onclick="goBackLevels(1)">Zürück</button>
+<h1>Gewichtungen</h1>
+
+Schriftlich : Mündlich WIRD NOCH GEMACHT
+
+
+<h3>Schriftlich</h3>
+
+<input type="checkbox" id="sameWeightingWritten" value="sameWeightingWritten">
+<label for="">alle schriftlichen Noten gleich werten?</label>
+<table id="written">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Anteile (x:x)</th>
+            <th style="min-width:30px">&nbsp;</th>
+            <th>Beispielnoten</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <th:block th:each="gradeTest : ${writtenGradeTests}">
+        <tr>
+            <td th:text="${gradeTest.testName}"></td>
+            <td rowspan="2"><input type="number" th:id="${gradeTest.Id}" class="weightingnumber" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}"></td>
+            <td></td>
+            <td rowspan="2"><input type="number" class="examplegradeswritten" value="1.5"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${gradeTest.testDescription}"></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+        </th:block>
+
+        <tr style="border-top: 1px black dotted">
+            <td colspan="3">&nbsp;</td>
+            <td id="exampleaveragewritten">Durchschnitt 1,5</td>
+        </tr>
+
+    </tbody>
+
+</table>
+
+<h3>Mündlich</h3>
+<input type="checkbox" id="sameWeightingOral" value="sameWeightingOral">
+<label for="">alle mündlichen Noten gleich werten?</label>
+<table id="oral">
+    <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Anteile (x:x)</th>
+        <th style="min-width:30px">&nbsp;</th>
+        <th>Beispielnoten</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <th:block th:each="gradeTest : ${oralGradeTests}">
+        <tr>
+            <td th:text="${gradeTest.testName}"></td>
+            <td rowspan="2"><input type="number" th:id="${gradeTest.Id}" class="weightingnumber" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}"></td>
+            <td></td>
+            <td rowspan="2"><input type="number" class="examplegradesoral" value="1.5"></td>
+        </tr>
+
+        <tr>
+            <td th:text="${gradeTest.testDescription}"></td>
+        </tr>
+        <tr><td colspan="4">&nbsp;</td></tr>
+    </th:block>
+
+    <tr style="border-top: 1px black dotted">
+        <td colspan="3">&nbsp;</td>
+        <td id="exampleaverageoral">Durchschnitt 1,5</td>
+    </tr>
+
+    </tbody>
+
+</table>
+</body>
+
+<script>
+    $("#sameWeightingWritten").change(function() {
+        if( $(this).is(":checked") ) {
+            $("table#written .weightingnumber").each(function() {
+                $(this).val('1');
+                sendGradeTestRatios($(this).attr('id'),$(this).val());
+            })
+        } else {
+            $("table#written .weightingnumber").each(function() {
+                $(this).val("");
+                sendGradeTestRatios($(this).attr('id'),$(this).val());
+            })
+        }
+    });
+
+        $("#sameWeightingOral").change(function() {
+        if( $(this).is(":checked") ) {
+            $("table#oral .weightingnumber").each(function() {
+                $(this).val('1');
+                sendGradeTestRatios($(this).attr('id'),$(this).val());
+            })
+        } else {
+            $("table#oral .weightingnumber").each(function() {
+                $(this).val("");
+                sendGradeTestRatios($(this).attr('id'),$(this).val());
+            })
+        }
+    });
+
+    function sendGradeTestRatios(tagid, weightingvalue) {
+        var gradeTestFormData = {
+            Id : tagid,
+            weighting : weightingvalue
+        }
+        $.ajax({
+            type : "POST",
+            url : window.location.href,
+            data : gradeTestFormData
+        })
+        .done(function() {
+        });
+    }
+
+    $(".weightingnumber").change(function() {
+
+        var gradeTestFormData = {
+            Id : $(this).attr('id'),
+            weighting : $(this).val()
+        }
+
+        $.ajax({
+            type : "POST",
+            url : window.location.href,
+            data : gradeTestFormData
+        })
+        .done(function() {
+        });
+
+        calcAverage(".examplegradeswritten", "#exampleaveragewritten");
+        calcAverage(".examplegradesoral", "#exampleaverageoral");
+
+    });
+
+    $(".examplegradeswritten").change(function() {
+        calcAverage(".examplegradeswritten", "#exampleaveragewritten");
+    });
+
+    $(".examplegradesoral").change(function() {
+        calcAverage(".examplegradesoral", "#exampleaverageoral");
+    });
+
+    function calcAverage(examplegradesClassTag,exampleaverageIdTag) {
+        var exampleGrades = new Array();
+        var examplegradeSum = 0;
+        var ratioSum = 0;
+        var allRatiosHaveValues = true;
+
+         $(examplegradesClassTag).each(function(i,obj) {
+            exampleGrades.push($(this).val());
+            var ratioTag = $(this).parent().parent().find("input.weightingnumber");
+            ratioSum += parseFloat(ratioTag.val());
+            var examplegrade = parseFloat($(this).val());
+
+            if(!$.trim(ratioTag.val()).length) {
+                allRatiosHaveValues = false;
+                examplegradeSum += examplegrade;
+            } else {
+                examplegradeSum += examplegrade * parseFloat(ratioTag.val());
+            }
+        });
+
+        if(allRatiosHaveValues) {
+            $(exampleaverageIdTag).html('Durchschnitt: ' + (examplegradeSum / ratioSum));
+        } else {
+            $(exampleaverageIdTag).html('Durchschnitt: ' + (examplegradeSum / exampleGrades.length));
+        }
+    }
+
+
+</script>
+</html>

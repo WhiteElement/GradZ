@@ -10,6 +10,8 @@ import com.manu.GradeR.SchoolClass.SchoolClassRepository;
 import com.manu.GradeR.Student.Student;
 import com.manu.GradeR.Student.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -82,6 +84,29 @@ public class GradeTestController {
 
         model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
         return "grade_test";
+    }
+
+    @GetMapping("/schoolclasses/{schoolclassid}/weightings")
+    public String showWeightings(Model model, @PathVariable Long schoolclassid) {
+
+        SchoolClass schoolClass = schoolClassRepository.getReferenceById(schoolclassid);
+        List<GradeTest> writtenGradeTests = gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, schoolClass);
+        List<GradeTest> oralGradeTests = gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, schoolClass);
+
+        model.addAttribute("writtenGradeTests", writtenGradeTests);
+        model.addAttribute("oralGradeTests", oralGradeTests);
+
+        return "weightings";
+    }
+
+    @PostMapping("/schoolclasses/{schoolclassid}/weightings")
+    public ResponseEntity updateWeightingOnGradeTest(GradeTest gradeTestFormData) {
+
+        GradeTest gradeTest = gradeTestRepository.getReferenceById(gradeTestFormData.getId());
+        gradeTest.setWeighting(gradeTestFormData.getWeighting());
+        gradeTestRepository.save((gradeTest));
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
 
