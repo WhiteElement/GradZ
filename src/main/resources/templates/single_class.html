@@ -118,13 +118,19 @@
             </thead>
 
             <tbody>
-            <tr th:unless="${#lists.isEmpty(students)}" th:each="student, iterStat : ${students}">
-                <td th:text="${iterStat.count}"></td>
-                <td th:text="${student.firstName}"></td>
-                <td th:text="${student.lastName}"></td>
-                <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
-            </tr>
-
+<!--            <tr th:unless="${#lists.isEmpty(students)}" th:each="student, iterStat : ${students}">-->
+<!--                <td th:text="${iterStat.count}"></td>-->
+<!--                <td th:text="${student.firstName}"></td>-->
+<!--                <td th:text="${student.lastName}"></td>-->
+<!--                <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>-->
+<!--            </tr>-->
+                <tr th:unless="${#lists.isEmpty(studentavg)}" th:each="student, iterStat : ${studentavg}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${student.firstName}"></td>
+                    <td th:text="${student.lastName}"></td>
+                    <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
+                    <td th:text="${student.writtenAverage}"></td>
+                </tr>
             </tbody>
         </table>
 

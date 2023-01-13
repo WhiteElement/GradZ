@@ -113,36 +113,4 @@ public class Student {
         this.schoolClass = schoolClass;
     }
 
-    public void calcGradeAverages() {
-
-        if(schoolClass.areAllWeightingsFilledOut(GradeTestType.WRITTEN)) {
-
-            for(GradeTest gradeTest : schoolClass.getGradeTests()) {
-                float gradeSum;
-                if(gradeTest.getGradeType() == GradeTestType.WRITTEN) {
-                    for(Grade grade : this.grades
-
-                    gradeTest.getId()
-                }
-            }
-
-
-        } else {
-            this.writtenAverage = null;
-        }
-
-        if(schoolClass.areAllWeightingsFilledOut(GradeTestType.ORAL)) {
-            //calc average
-        } else {
-            this.oralAverage = null;
-        }
-
-        if ((this.oralAverage != null) && (this.writtenAverage != null)) {
-            //calc totalAverage
-
-        } else {
-            this.totalAverage = null;
-        }
-    }
-
 }
