@@ -15,8 +15,8 @@ public class GradeService {
 
     GradeService() {};
 
-    public List<Grade> getAllGradesFromStudentByType(Student student, GradeTestType type) {
-        return gradeRepository.getAllGradesFromStudentByType(student, type);
+    public List<Grade> getAllGradesFromStudentByType(Long studentid, GradeTestType type) {
+        return gradeRepository.getAllGradesFromStudentByType(studentid, type);
     }
 
 }

@@ -13,6 +13,10 @@ public class GradeTestService {
     @Autowired
     GradeTestRepository gradeTestRepository;
 
+    public GradeTest findById(Long gradetestid) {
+        return gradeTestRepository.findById(gradetestid).get();
+    }
+
     public HashMap<Long, Float> getWeightingsMap(SchoolClass schoolClass, GradeTestType type) {
         List<GradeTest> allGradeTests = gradeTestRepository.findByGradeTypeAndSchoolClass(type,schoolClass);
 

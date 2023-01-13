@@ -27,6 +27,8 @@ public class SchoolClass {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "schoolClass")
     private List<Student> students = new ArrayList<>();
 
+    private Float writtenWeighting;
+    private Float oralWeighting;
 
     public SchoolClass() {
     }
@@ -97,6 +99,22 @@ public class SchoolClass {
             }  else {continue;}
         }
         return true;
+    }
+
+    public Float getWrittenWeighting() {
+        return writtenWeighting;
+    }
+
+    public void setWrittenWeighting(Float writtenWeighting) {
+        this.writtenWeighting = writtenWeighting;
+    }
+
+    public Float getOralWeighting() {
+        return oralWeighting;
+    }
+
+    public void setOralWeighting(Float oralWeighting) {
+        this.oralWeighting = oralWeighting;
     }
 }
 

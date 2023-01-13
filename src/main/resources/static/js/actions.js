@@ -79,35 +79,3 @@ function goBackLevels(slashesToRemove) {
 function showWeightings() {
     window.location.replace(window.location.href + '/weightings');
 }
-
-//NICHT NOTWENDIG?!
-function calcAllAverages() {
-
-    //check ob alle gewichtungen ausgeüllt sind
-    //alle weightings holen
-    var weightingspan = $("span#writtenweightingsdisplay");
-
-    //zahlen extrahieren
-    var weightingsraw = weightingspan.text().replace("(","").replace(")","").trim().split(":");
-    var weightings = new Array();
-    for (var i=0; i<weightingsraw.length; i++) {
-        weightings.push(weightingsraw[i].split('\n').join('').trim());
-    }
-
-    //wenn es x contains
-    if(!weightings.includes("x")) {
-
-        //alle noten eines schülers holen
-//        console.log($("tbody > tr").first());
-        var grades = $("tbody > tr .grade").slice(4,8);
-        grades.each(function() {
-            console.log($(this).text());
-        })
-//        for(var grade of grades) {
-//            console.log(grade.text());
-//        }
-
-    } else {
-        console.log("nicht alle Gewichtungen festgelegt!");
-    }
-}

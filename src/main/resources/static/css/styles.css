@@ -31,3 +31,16 @@
 .weightingnumber {
     vertical-align:top;
 }
+
+#weightingstable {
+    display:none;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+#overview ul p, #overview p {
+    margin: 0;
+    padding: 0
+}

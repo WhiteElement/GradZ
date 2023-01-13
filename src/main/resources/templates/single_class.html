@@ -10,31 +10,40 @@
 
 </head>
 <body>
-<button onclick="goBackLevels(2)">zurück</button>
-<h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
-<button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
-<div id="editSchoolClass">
-    <label for="">Klasse:</label>
-    <input type="text" id="className">
-    <label for="">Fach:</label>
-    <input type="text" id="subject">
-    <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
-</div>
+    <section>
+        <button onclick="goBackLevels(2)">zurück</button>
+        <h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
+        <button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
+        <div id="editSchoolClass">
+            <label for="">Klasse:</label>
+            <input type="text" id="className">
+            <label for="">Fach:</label>
+            <input type="text" id="subject">
+            <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
+        </div>
+    </section>
     <section id="overview">
         <div>
             <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
+            <th:block>
+                <p>
+                    <th:block th:text="'Gewichtung (schriftlich/mündlich): '"></th:block>
+                    <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
+                    <th:block th:text="' : '"></th:block>
+                    <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
+                </p>
+            </th:block>
             <p>Noten</p>
             <ul>
-               <p th:text="'schriftlich: ' + ${#lists.size(writtenGradeTests)}">schriftlich: 2</p>
-               <p th:text="'mündlich: ' + ${#lists.size(oralGradeTests)}">mündlich: 1</p>
-
+                <p th:text="'schriftlich: ' + ${#lists.size(writtenGradeTests)}">schriftlich: 2</p>
+                <p th:text="'mündlich: ' + ${#lists.size(oralGradeTests)}">mündlich: 1</p>
             </ul>
+
         </div>
         <div>
             <button onclick="window.location.href=window.location.href + '/students'">Klassenliste anzeigen</button><br/>
             <button onclick="showHelperContent()">Note anlegen</button><br>
             <button onclick="showWeightings()">Gewichtung ändern</button>
-            <button onclick="calcAllAverages()">calc Avg</button>
         </div>
         <div id="helpercontent">
             <h3>Neue Note</h3>
@@ -102,9 +111,18 @@
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
                         title="Noten eintragen" th:text="${gradeTest.testName}"></th>
-                    <th rowspan="2">schriftlich</th>
+                    <th rowspan="2" >schriftlich</th>
                     <th rowspan="2">mündlich</th>
-                    <th rowspan="2">Gesamt</th>
+                    <th:block>
+                        <th rowspan="2">
+                            <th:block th:text="'Gesamt ('"></th:block>
+                            <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="' : '"></th:block>
+                            <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="')'"></th:block>
+                        </th>
+                    </th:block>
+<!--                    <th rowspan="2" th:text="'Gesamt (' + ${currentSchoolClass.writtenWeighting}">Gesamt</th>-->
                 </tr>
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
@@ -118,18 +136,14 @@
             </thead>
 
             <tbody>
-<!--            <tr th:unless="${#lists.isEmpty(students)}" th:each="student, iterStat : ${students}">-->
-<!--                <td th:text="${iterStat.count}"></td>-->
-<!--                <td th:text="${student.firstName}"></td>-->
-<!--                <td th:text="${student.lastName}"></td>-->
-<!--                <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>-->
-<!--            </tr>-->
                 <tr th:unless="${#lists.isEmpty(studentavg)}" th:each="student, iterStat : ${studentavg}">
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${student.firstName}"></td>
                     <td th:text="${student.lastName}"></td>
                     <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
-                    <td th:text="${student.writtenAverage}"></td>
+                    <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')}"></td>
+                    <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')}"></td>
+                    <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')}"></td>
                 </tr>
             </tbody>
         </table>

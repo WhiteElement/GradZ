@@ -13,7 +13,31 @@
 <button onclick="goBackLevels(1)">Zürück</button>
 <h1>Gewichtungen</h1>
 
-Schriftlich : Mündlich WIRD NOCH GEMACHT
+<div>
+    <p>
+
+        <th:block th:text="'Schriftlich '"></th:block>
+        <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'nicht festgelegt'"></th:block>
+        <th:block th:text="' : Mündlich '"></th:block>
+        <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'nicht festgelegt'"></th:block>
+    </p>
+    <button onclick="toggleWeightingsTable()">Gewichtung ändern</button>
+    <div id="weightingstable">
+        <table>
+            <tr>
+                <th>Schriftlich</th>
+                <th>&nbsp;</th>
+                <th>Mündlich</th>
+            </tr>
+            <tr>
+                <td><input type="number" id="writtenWeightingSchoolClass" th:value="${currentSchoolClass.writtenWeighting} ?: ''"></td>
+                <td> : </td>
+                <td><input type="number" id="oralWeightingSchoolClass" th:value="${currentSchoolClass.oralWeighting} ?: ''"></td>
+            </tr>
+        </table>
+        <button onclick="updateWeightingsForSchoolClass()">ändern</button>
+    </div>
+</div>
 
 
 <h3>Schriftlich</h3>
@@ -189,7 +213,26 @@ Schriftlich : Mündlich WIRD NOCH GEMACHT
             $(exampleaverageIdTag).html('Durchschnitt: ' + (examplegradeSum / exampleGrades.length));
         }
     }
+function toggleWeightingsTable() {
+    $("#weightingstable").toggle();
+}
 
+async function updateWeightingsForSchoolClass(){
+    var schoolClassWeightings = {
+        writtenWeighting : document.querySelector("#writtenWeightingSchoolClass").value,
+        oralWeighting : document.querySelector("#oralWeightingSchoolClass").value
+    }
+
+    const url = window.location.href;
+    await fetch(url + '/class', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(schoolClassWeightings)
+    });
+    window.location.replace(url);
+}
 
 </script>
 </html>

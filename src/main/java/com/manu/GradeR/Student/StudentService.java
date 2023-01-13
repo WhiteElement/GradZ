@@ -4,7 +4,6 @@ import com.manu.GradeR.Dao.StudentAverageDao;
 import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.Grade.GradeRepository;
 import com.manu.GradeR.Grade.GradeService;
-import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestService;
 import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.SchoolClass.SchoolClass;
@@ -43,78 +42,73 @@ public class StudentService {
         List<Student> students = getAllStudentsFromClassOrdered(schoolClass);
         List<StudentAverageDao> studentAverageDaos = new ArrayList<>();
 
-        //alle schr noten ausgefüllt
+        for(Student student : students) {
+            StudentAverageDao studentAverageDao = new StudentAverageDao();
+            studentAverageDao.setId(student.getId());
+            studentAverageDao.setFirstName(student.getFirstName());
+            studentAverageDao.setLastName(student.getLastName());
+            studentAverageDao.setGrades(student.getGrades());
+            studentAverageDaos.add(studentAverageDao);
+        }
+
         if(schoolClass.areAllWeightingsFilledOut(GradeTestType.WRITTEN)) {
-
-            HashMap<Long,Float> weightingsmap = gradeTestService.getWeightingsMap(schoolClass, GradeTestType.WRITTEN);
-            Float weightingsTotal = 0f;
-            for(Long key : weightingsmap.keySet()) {
-                weightingsTotal += weightingsmap.get(key);
-            }
-
-            for(Student student : students) {
-                StudentAverageDao studentAverageDao = new StudentAverageDao();
-                studentAverageDao.setId(student.getId());
-                studentAverageDao.setFirstName(student.getFirstName());
-                studentAverageDao.setLastName(student.getLastName());
-                studentAverageDao.setGrades(student.getGrades());
-
-                Float gradeSum = 0f;
-                boolean hasEmptyGrades = false;
-
-                for(Grade grade : gradeRepository.getAllGradesFromStudentByType(student, GradeTestType.WRITTEN)) {
-                    //calc written avg
-                    if(grade.getGrade() == null) {
-                        hasEmptyGrades = true;
-                        break;
-                    } else {
-                        gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
-                    }
-                }
-                if(hasEmptyGrades) {
-                    studentAverageDao.setWrittenAverage(null);
-                } else {
-                    studentAverageDao.setWrittenAverage(gradeSum / weightingsTotal);
-                }
-                studentAverageDaos.add(studentAverageDao);
-                System.out.println(studentAverageDao.toString());
-            }
+            calculateAverage(schoolClass, studentAverageDaos, GradeTestType.WRITTEN);
+        }
+        if(schoolClass.areAllWeightingsFilledOut(GradeTestType.ORAL)) {
+            calculateAverage(schoolClass, studentAverageDaos, GradeTestType.ORAL);
         }
         return studentAverageDaos;
     }
 
+    private void calculateAverage(SchoolClass schoolClass, List<StudentAverageDao> studentAverageDaos, GradeTestType type) {
+        HashMap<Long,Float> weightingsmap = gradeTestService.getWeightingsMap(schoolClass, type);
+        Float weightingsTotal = 0f;
+        for(Long key : weightingsmap.keySet()) {
+            weightingsTotal += weightingsmap.get(key);
+        }
 
-//
-//
-//    public void calcGradeAverages() {
-//
-//        if(schoolClass.areAllWeightingsFilledOut(GradeTestType.WRITTEN)) {
-//
-//            for(GradeTest gradeTest : schoolClass.getGradeTests()) {
-//                float gradeSum;
-//                if(gradeTest.getGradeType() == GradeTestType.WRITTEN) {
-//                    for(Grade grade : this.grades
-//
-//                    gradeTest.getId()
-//                }
-//            }
-//
-//
-//        } else {
-//            this.writtenAverage = null;
-//        }
-//
-//        if(schoolClass.areAllWeightingsFilledOut(GradeTestType.ORAL)) {
-//            //calc average
-//        } else {
-//            this.oralAverage = null;
-//        }
-//
-//        if ((this.oralAverage != null) && (this.writtenAverage != null)) {
-//            //calc totalAverage
-//
-//        } else {
-//            this.totalAverage = null;
-//        }
-//    }
+        for(StudentAverageDao student : studentAverageDaos) {
+
+            Float gradeSum = 0f;
+            boolean hasEmptyGrades = false;
+
+            for(Grade grade : gradeRepository.getAllGradesFromStudentByType(student.getId(), type)) {
+
+                if(grade.getGrade() == null) {
+                    hasEmptyGrades = true;
+                    break;
+                } else {
+                    gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
+                }
+            }
+            if (type == GradeTestType.WRITTEN) {
+                if(hasEmptyGrades) {
+                    student.setWrittenAverage(null);
+                } else {
+                    student.setWrittenAverage(gradeSum / weightingsTotal);
+                }
+            } else {
+                if(hasEmptyGrades) {
+                    student.setOralAverage(null);
+                } else {
+                    student.setOralAverage(gradeSum / weightingsTotal);
+                }
+            }
+            student.setTotalAverage(calculateTotalAverage(student, schoolClass));
+        }
+    }
+
+    private Float calculateTotalAverage(StudentAverageDao student, SchoolClass schoolClass) {
+        if(schoolClass.getWrittenWeighting() == null || schoolClass.getOralWeighting() == null) {
+            return null;
+        }
+
+        if(student.getOralAverage() == null || student.getWrittenAverage() == null ) {
+            return null;
+        }
+
+        return ((student.getWrittenAverage() * schoolClass.getWrittenWeighting()) +
+                (student.getOralAverage() * schoolClass.getOralWeighting())) /
+                (schoolClass.getWrittenWeighting() + schoolClass.getOralWeighting());
+    }
 }
