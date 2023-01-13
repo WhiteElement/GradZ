@@ -14,10 +14,33 @@
 }
 
 .coloredHeader {
-    background-color :green;
+    background-color : #ADD8E6 !important;
     cursor : pointer
 }
 
 .desc {
     font-size : 15px;
+}
+
+.weighting {
+    display : flex;
+    justify-content : flex-start;
+    gap: 40px;
+}
+
+.weightingnumber {
+    vertical-align:top;
+}
+
+#weightingstable {
+    display:none;
+}
+
+section {
+    margin-bottom: 50px;
+}
+
+#overview ul p, #overview p {
+    margin: 0;
+    padding: 0
 }

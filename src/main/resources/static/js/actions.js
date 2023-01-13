@@ -75,3 +75,7 @@ function goBackLevels(slashesToRemove) {
     }
     window.location.replace(url);
 }
+
+function showWeightings() {
+    window.location.replace(window.location.href + '/weightings');
+}

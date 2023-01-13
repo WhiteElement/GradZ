@@ -15,5 +15,4 @@ public interface GradeTestRepository extends JpaRepository<GradeTest, Long> {
     @Query("from GradeTest where gradeType = :gradeType and schoolClass = :schoolclass order by Id asc")
     public List<GradeTest> findByGradeTypeAndSchoolClass(@Param("gradeType") GradeTestType gradeType,
                                                          @Param("schoolclass") SchoolClass schoolClass);
-
 }

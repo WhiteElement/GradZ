@@ -26,9 +26,6 @@ curl -X POST -d "firstName=David2" -d "lastName=Agrat2" http://localhost:8080/sc
 curl -X POST -d "firstName=Xenia2" -d "lastName=Sterk2" http://localhost:8080/schoolclasses/2/newstudent
 
 
-
-
-
 ::Create GradeTests
 ::
 curl -X POST -d "gradeType=WRITTEN" -d "testName=KA+#1" -d "testDescription=erste+Klassenarbeit" http://localhost:8080/schoolclasses/1/newgradetest
@@ -37,9 +34,27 @@ curl -X POST -d "gradeType=ORAL" -d "testName=24.10" -d "testDescription=Abfrage
 
 
 ::Create Grades
-::
+:: WRITTEN
 curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/1/1
 curl -X POST -d "Grade=2.5" http://localhost:8080/schoolclasses/1/1/2
 curl -X POST -d "Grade=1" http://localhost:8080/schoolclasses/1/1/3
 curl -X POST -d "Grade=4.3" http://localhost:8080/schoolclasses/1/1/4
 curl -X POST -d "Grade=3" http://localhost:8080/schoolclasses/1/1/5
+curl -X POST -d "Grade=5" http://localhost:8080/schoolclasses/1/1/6
+curl -X POST -d "Grade=4.5" http://localhost:8080/schoolclasses/1/1/7
+curl -X POST -d "Grade=1" http://localhost:8080/schoolclasses/1/2/1
+curl -X POST -d "Grade=3" http://localhost:8080/schoolclasses/1/2/2
+curl -X POST -d "Grade=4.5" http://localhost:8080/schoolclasses/1/2/3
+curl -X POST -d "Grade=3.5" http://localhost:8080/schoolclasses/1/2/4
+curl -X POST -d "Grade=4" http://localhost:8080/schoolclasses/1/2/5
+curl -X POST -d "Grade=2.5" http://localhost:8080/schoolclasses/1/2/6
+curl -X POST -d "Grade=4" http://localhost:8080/schoolclasses/1/2/7
+
+::ORAL
+curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/3/1
+curl -X POST -d "Grade=2.5" http://localhost:8080/schoolclasses/1/3/2
+curl -X POST -d "Grade=1.5" http://localhost:8080/schoolclasses/1/3/3
+curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/3/4
+curl -X POST -d "Grade=1.5" http://localhost:8080/schoolclasses/1/3/5
+curl -X POST -d "Grade=1" http://localhost:8080/schoolclasses/1/3/6
+curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/3/7

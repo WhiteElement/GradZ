@@ -2,6 +2,7 @@ package com.manu.GradeR.SchoolClass;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manu.GradeR.GradeTest.GradeTest;
+import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.Student.Student;
 import jakarta.persistence.*;
 
@@ -25,6 +26,9 @@ public class SchoolClass {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "schoolClass")
     private List<Student> students = new ArrayList<>();
+
+    private Float writtenWeighting;
+    private Float oralWeighting;
 
     public SchoolClass() {
     }
@@ -84,6 +88,33 @@ public class SchoolClass {
                 ", gradeTests=" + gradeTests +
                 ", students=" + students +
                 '}';
+    }
+
+    public boolean areAllWeightingsFilledOut(GradeTestType requestedType) {
+        for (GradeTest gradeTest : this.gradeTests) {
+            if (gradeTest.getGradeType() == requestedType) {
+                if(gradeTest.getWeighting() == null) {
+                    return false;
+                }
+            }  else {continue;}
+        }
+        return true;
+    }
+
+    public Float getWrittenWeighting() {
+        return writtenWeighting;
+    }
+
+    public void setWrittenWeighting(Float writtenWeighting) {
+        this.writtenWeighting = writtenWeighting;
+    }
+
+    public Float getOralWeighting() {
+        return oralWeighting;
+    }
+
+    public void setOralWeighting(Float oralWeighting) {
+        this.oralWeighting = oralWeighting;
     }
 }
 

@@ -1,13 +1,10 @@
 package com.manu.GradeR.SchoolClass;
 
-import com.manu.GradeR.Dao.StudentAllGradesDao;
-import com.manu.GradeR.Dao.StudentGradeDao;
-import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestRepository;
 import com.manu.GradeR.GradeTest.GradeTestType;
-import com.manu.GradeR.Student.Student;
 import com.manu.GradeR.Student.StudentRepository;
+import com.manu.GradeR.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -31,6 +28,9 @@ public class SchoolClassController {
 
     @Autowired
     StudentRepository studentRepository;
+    
+    @Autowired
+    StudentService studentService;
 
     @GetMapping("/")
     public String showSchoolClassPage(Model model) {
@@ -63,35 +63,13 @@ public class SchoolClassController {
 
         List<GradeTest> writtenGradeTests = gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass);
 
-        List<Student> students = studentRepository.findAllFromClassOrderByLastName(currentSchoolClass);
-
-
-//
-//        StudentAllGradesDao teststudent = new StudentAllGradesDao();
-//        teststudent.setFirstName("Manuel");
-//        teststudent.setLastName("Brusche");
-//        teststudent.setWrittenGrades(new ArrayList<>(Arrays.asList(new Grade(2f),new Grade(null), new Grade(3f))));
-//
-//
-//        List<Long> writtenSortOrder = new ArrayList<>();
-//        for(GradeTest test : writtenGradeTests) {
-//            writtenSortOrder.add(test.getId());
-//        }
-//
-//
-//
-//        for (Student student : students) {
-//            Collections.sort(student.getGrades(), Comparator.comparing(item -> writtenSortOrder.indexOf(item)));
-//        }
-
-
+        model.addAttribute("studentavg", studentService.getAllStudentsWithAverages(currentSchoolClass));
 
         model.addAttribute("newGradeTest", new GradeTest());
         model.addAttribute("currentSchoolClass", currentSchoolClass);
         model.addAttribute("writtenGradeTests", writtenGradeTests);
         model.addAttribute("oralGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
-        model.addAttribute("students", students);
-//        model.addAttribute("test", teststudent);
+        model.addAttribute("students", studentService.getAllStudentsFromClassOrdered(currentSchoolClass));
 
         return "single_class";
     }
