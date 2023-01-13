@@ -5,9 +5,10 @@ bugs
 
 todos
 -------
-- averages (für student/pro arbeit)
-    x -option für alle gleich in einer "kategorie"
-    x-back button
+- STUDENT LOOP AUS DEM ERSTEN IF CLAUSE RAUSNEHMEN
+    - averages (für student/pro arbeit)
+        x -option für alle gleich in einer "kategorie"
+        x-back button
 
 - noten senden in single_grade view: ERROR
 
