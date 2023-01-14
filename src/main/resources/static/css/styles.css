@@ -44,3 +44,20 @@ section {
     margin: 0;
     padding: 0
 }
+
+#weightingswarning {
+    float : right;
+    font-size : small
+}
+
+td.avgdisplay {
+    font-style : italic;
+    border-top: 4px black double;
+    border-bottom : 0;
+}
+
+.emptycell {
+    border-bottom : 0;
+}
+
+

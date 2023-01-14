@@ -5,15 +5,9 @@ bugs
 
 todos
 -------
-X- STUDENT LOOP AUS DEM ERSTEN IF CLAUSE RAUSNEHMEN
-    x - averages (für student/pro arbeit)
-        x -option für alle gleich in einer "kategorie"
-        x-back button
-        -nachricht wenn gewichtungen noch nicht eingegeben sind, dass es keine durchschnitte gibt
+x   - nachricht wenn gewichtungen noch nicht eingegeben sind, dass es keine durchschnitte gibt
 
-x - noten senden in single_grade view: ERROR
-
-- note speichern: es sollte möglich sein NICHTS zu senden
+x   - note speichern: es sollte möglich sein NICHTS zu senden
 
 - alle kommentare durschauen
 - services einfügen
@@ -21,9 +15,10 @@ x - noten senden in single_grade view: ERROR
 - lehrer anlegen (login etc)
 - klassenliste machen
 - input control /bindingresult has errors....
-- input komma check bei noten- und gewichtungseingabe
-x - calcaverage button entfernen
 - Note und Beschreibung sollte man ändern können
 - Averages auf der DB speichern oder nicht?
-x - Im Overview mehr Infos einfügen, wie etwa die Bewertungen
-- Klassenarbeit Durchschnitt
+x   - Klassenarbeit Durchschnitt
+- schüler bearbeiten / löschen
+
+x   -kl arbeit anlegen fehler
+x   -null note

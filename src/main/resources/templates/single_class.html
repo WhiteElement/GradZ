@@ -107,7 +107,8 @@
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        title="Noten eintragen" th:text="${gradeTest.testName}"></th>
+                        title="Noten eintragen"
+                        th:text="${gradeTest.testName}"></th>
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
                         title="Noten eintragen" th:text="${gradeTest.testName}"></th>
@@ -122,7 +123,6 @@
                             <th:block th:text="')'"></th:block>
                         </th>
                     </th:block>
-<!--                    <th rowspan="2" th:text="'Gesamt (' + ${currentSchoolClass.writtenWeighting}">Gesamt</th>-->
                 </tr>
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
@@ -141,13 +141,31 @@
                     <td th:text="${student.firstName}"></td>
                     <td th:text="${student.lastName}"></td>
                     <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')}"></td>
+                    <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')} ?: '-'"></td>
+                    <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')} ?: '-'"></td>
+                    <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')} ?: '-'"></td>
                 </tr>
+                <tr>
+                    <td class="emptycell" colspan="3"></td>
+                    <th:block th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}">
+                        <th:block th:switch="${#arrays.contains(gradeTest.grades.![grade], null)}">
+                            <td th:case="true" class="avgdisplay" th:text="'&#8709; -'"></td>
+                            <td th:case="false" class="avgdisplay" th:text="'&#8709; ' + ${#numbers.formatDecimal(#aggregates.avg(gradeTest.grades.![grade]),1,2,'COMMA')}"></td>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}">
+                        <th:block th:unless="${#arrays.contains(gradeTest.grades.![grade], null)}">
+                            <td class="avgdisplay" th:text="'&#8709; ' + ${#numbers.formatDecimal(#aggregates.avg(gradeTest.grades.![grade]),1,2,'COMMA')}">
+                            </td>
+                        </th:block>
+                    </th:block>
+
+                </tr>
+
             </tbody>
         </table>
 
+        <span id="weightingswarning"> - : fehlende Gewichtung / fehlende Noten</span>
     </section>
 
 <script>

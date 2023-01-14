@@ -72,30 +72,49 @@ public class StudentService {
             Float gradeSum = 0f;
             boolean hasEmptyGrades = false;
 
-            for(Grade grade : gradeRepository.getAllGradesFromStudentByType(student.getId(), type)) {
+            List<Grade> grades = gradeRepository.getAllGradesFromStudentByType(student.getId(), type);
 
-                if(grade.getGrade() == null) {
-                    hasEmptyGrades = true;
-                    break;
-                } else {
-                    gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
-                }
-            }
-            if (type == GradeTestType.WRITTEN) {
-                if(hasEmptyGrades) {
+            if(!studentHasGrades(grades)) {
+                System.out.println("######erreicht loop#########");
+                if(type == GradeTestType.WRITTEN) {
                     student.setWrittenAverage(null);
                 } else {
-                    student.setWrittenAverage(gradeSum / weightingsTotal);
+                    student.setOralAverage(null);
                 }
             } else {
-                if(hasEmptyGrades) {
-                    student.setOralAverage(null);
-                } else {
-                    student.setOralAverage(gradeSum / weightingsTotal);
+                for(Grade grade : grades) {
+                    if(grade.getGrade() == null) {
+                        hasEmptyGrades = true;
+                        break;
+                    } else {
+                        gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
+                    }
                 }
+                if (type == GradeTestType.WRITTEN) {
+                    if(hasEmptyGrades) {
+                        student.setWrittenAverage(null);
+                    } else {
+                        student.setWrittenAverage(gradeSum / weightingsTotal);
+                    }
+                } else {
+                    if(hasEmptyGrades) {
+                        student.setOralAverage(null);
+                    } else {
+                        student.setOralAverage(gradeSum / weightingsTotal);
+                    }
+                }
+                student.setTotalAverage(calculateTotalAverage(student, schoolClass));
             }
-            student.setTotalAverage(calculateTotalAverage(student, schoolClass));
+
+
         }
+    }
+
+    private boolean studentHasGrades(List<Grade> grades) {
+        if(grades.size() == 0) {
+            return false;
+        }
+        return true;
     }
 
     private Float calculateTotalAverage(StudentAverageDao student, SchoolClass schoolClass) {
