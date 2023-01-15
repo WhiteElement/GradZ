@@ -58,3 +58,5 @@ curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/3/4
 curl -X POST -d "Grade=1.5" http://localhost:8080/schoolclasses/1/3/5
 curl -X POST -d "Grade=1" http://localhost:8080/schoolclasses/1/3/6
 curl -X POST -d "Grade=2" http://localhost:8080/schoolclasses/1/3/7
+
+

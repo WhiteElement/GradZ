@@ -5,9 +5,6 @@ bugs
 
 todos
 -------
-x   - nachricht wenn gewichtungen noch nicht eingegeben sind, dass es keine durchschnitte gibt
-
-x   - note speichern: es sollte möglich sein NICHTS zu senden
 
 - alle kommentare durschauen
 - services einfügen
@@ -17,8 +14,5 @@ x   - note speichern: es sollte möglich sein NICHTS zu senden
 - input control /bindingresult has errors....
 - Note und Beschreibung sollte man ändern können
 - Averages auf der DB speichern oder nicht?
-x   - Klassenarbeit Durchschnitt
-- schüler bearbeiten / löschen
 
-x   -kl arbeit anlegen fehler
-x   -null note
+-notizen zu Schülern sollen hinzufügbar sein, damit man nachher weiß, warum man bspw. diese mdl. Note gegeben hat für ein Elterngespräch

@@ -130,4 +130,16 @@ public class StudentService {
                 (student.getOralAverage() * schoolClass.getOralWeighting())) /
                 (schoolClass.getWrittenWeighting() + schoolClass.getOralWeighting());
     }
+
+    public Student findById(Long id) {
+        return studentRepository.findById(id).get();
+    }
+
+    public void save(Student student) {
+        studentRepository.save(student);
+    }
+
+    public void deleteById(Long studentId) {
+        studentRepository.deleteById(studentId);
+    }
 }

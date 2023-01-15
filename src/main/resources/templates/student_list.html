@@ -5,7 +5,79 @@
     <title th:text="${currentClass.className} + ' - ' + ${currentClass.subject}"></title>
 </head>
 <body>
+<section>
+    hier kommen Klassensachen und Infos hin
 
+</section>
+<section>
+    <table>
+        <thead>
+        <th>#</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>&nbsp;</th>
+        </thead>
+        <tbody>
+        <tr th:each="student, iterStat : ${students}" th:data-id="${student.Id}">
+            <td th:text="${iterStat.count}"></td>
+            <td> <input type="text" class="studentinput firstName" th:value="${student.firstName}"></td>
+            <td> <input type="text" class="studentinput lastName"  th:value="${student.lastName}"></td>
+            <td><button th:data-id="${student.Id}" onclick="deleteStudent(this.dataset.id)">löschen</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
 
 </body>
+
+<script>
+
+   document.querySelectorAll(".studentinput").forEach(input => {
+        input.addEventListener("change", event => {
+            updateStudent(input);
+        })
+    });
+
+    async function updateStudent(input) {
+        var studentData = {
+            id : parseInt(input.parentElement.parentElement.dataset.id),
+            firstName : input.parentElement.parentElement.querySelector(".firstName").value,
+            lastName : input.parentElement.parentElement.querySelector(".lastName").value
+        }
+
+        await fetch(window.location.href, {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(studentData)
+        });
+
+    }
+
+    async function deleteStudent(id) {
+
+        var rowElement = document.querySelector('tr[data-id="' + id + '"]');
+        var firstName = rowElement.querySelector(".firstName").value;
+        var lastName = rowElement.querySelector(".lastName").value;
+
+        let text = "Bist du sicher, dass du Schüler " + firstName + " " + lastName + " unwiederruflich löschen willst?";
+
+        if(confirm(text) == true) {
+            await fetch(window.location.href + '?studentid=' + id , {
+            method : "DELETE",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        document.querySelector('tr[data-id="' + id + '"]').style.display = 'none';
+        }
+
+
+    }
+
+
+
+</script>
 </html>
