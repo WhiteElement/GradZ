@@ -18,3 +18,9 @@ todos
 -gradetest muss löschbar sein / typ muss änderbar sein
 
 -wenn man eine neue schriftliche datenbank dazugefügt hat, dann hat es die noten nicht mitverschoben und plötzlich hatte im overview der neue gradetest die noten der mdl note
+
+
+
+index
+------
+-button schrift muss togglebar sein
