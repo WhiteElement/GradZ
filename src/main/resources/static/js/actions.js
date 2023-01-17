@@ -1,19 +1,28 @@
-function updateSchoolClass(id) {
+//index
+
+async function updateSchoolClass(inputelem) {
+    let url = window.location.href;
     var SchoolClassFormData = {
-        Id : $("h1").data('id'),
-        className : $("#editSchoolClass #className").val(),
-        subject : $("#editSchoolClass #subject").val()
+        id : parseInt(inputelem.parentElement.dataset.id),
+        className : inputelem.parentElement.querySelector(".className").value,
+        subject : inputelem.parentElement.querySelector(".classSubject").value
     };
 
-    $.ajax({
-        type: "POST",
-        url: "/updateSchoolClass",
-        data: SchoolClassFormData,
-    })
-    .done(function() {
-        window.location.replace(window.location.href);
+    const response = await fetch(url +"updateSchoolClass", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(SchoolClassFormData)
     });
+
+    if(!response.ok) throw response;
+    if(response.ok) {
+        window.location.replace(url);
+    }
 }
+
+
 
 function closeAll() {
     $("#editSchoolClass").hide();
@@ -78,4 +87,12 @@ function goBackLevels(slashesToRemove) {
 
 function showWeightings() {
     window.location.replace(window.location.href + '/weightings');
+}
+
+function toggle(elem) {
+    if(elem.style.display == "block") {
+        elem.style.display = 'none';
+    } else {
+        elem.style.display = 'block';
+    }
 }

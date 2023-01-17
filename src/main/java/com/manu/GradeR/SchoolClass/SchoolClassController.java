@@ -7,12 +7,10 @@ import com.manu.GradeR.Student.StudentRepository;
 import com.manu.GradeR.Student.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
@@ -32,10 +30,13 @@ public class SchoolClassController {
     @Autowired
     StudentService studentService;
 
+    @Autowired
+    SchoolClassService schoolClassService;
+
     @GetMapping("/")
     public String showSchoolClassPage(Model model) {
 
-        List<SchoolClass> allSchoolClasses = schoolClassRepository.findAll();
+        List<SchoolClass> allSchoolClasses = schoolClassService.findAll();
 
         model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("newSchoolClass", new SchoolClass());
@@ -44,16 +45,20 @@ public class SchoolClassController {
     }
 
     @PostMapping("/")
-    public String newSchoolClass(RedirectAttributes redirectAttributes, SchoolClass schoolClassFormData) {
-        schoolClassRepository.save(schoolClassFormData);
+    public String newSchoolClass(SchoolClass schoolClassFormData) {
+        schoolClassService.save(schoolClassFormData);
 
         return "redirect:/";
     }
 
     @PostMapping("/updateSchoolClass")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void updateSchoolClass(SchoolClass schoolClassFormData) {
-        schoolClassRepository.save(schoolClassFormData);
+    public ResponseEntity updateSchoolClass(@RequestBody SchoolClass schoolClassFormData) {
+        SchoolClass schoolClass = schoolClassService.getReferenceById(schoolClassFormData.getId());
+        schoolClass.setClassName(schoolClassFormData.getClassName());
+        schoolClass.setSubject(schoolClassFormData.getSubject());
+        schoolClassService.save(schoolClass);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/schoolclasses/{id}")

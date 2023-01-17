@@ -75,7 +75,6 @@ public class StudentService {
             List<Grade> grades = gradeRepository.getAllGradesFromStudentByType(student.getId(), type);
 
             if(!studentHasGrades(grades)) {
-                System.out.println("######erreicht loop#########");
                 if(type == GradeTestType.WRITTEN) {
                     student.setWrittenAverage(null);
                 } else {

@@ -60,4 +60,8 @@ td.avgdisplay {
     border-bottom : 0;
 }
 
+#ClassEdit {
+    display: none;
+}
+
 

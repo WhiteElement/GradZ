@@ -17,19 +17,17 @@
     <div id="availableSchoolClasses">
         <th:block th:unless="${allSchoolClasses} == null">
 
-            <ul th:each="SchoolClass : ${allSchoolClasses}">
+            <ul th:each="SchoolClass : ${allSchoolClasses}" th:data-id="${SchoolClass.Id}" th:data-name="${SchoolClass.className}" th:data-subject="${SchoolClass.subject}">
 
-                <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}" th:text="${SchoolClass.className} + ' - ' + ${SchoolClass.subject}"></a>
-                <button th:data-id="${SchoolClass.Id}" th:data-name="${SchoolClass.className}" th:data-subject="${SchoolClass.subject}"
-                        onclick="openEditSchoolClassWindow(this.getAttribute('data-id'), this.getAttribute('data-name'), this.getAttribute('data-subject') )">editieren</button>
-                <div class="editSchoolClass" th:id="'editSchoolClassWindow' + ${SchoolClass.Id}">
+                <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}"
+                   th:text="${SchoolClass.className} + ' - ' + ${SchoolClass.subject}"></a>
+                <button onclick="openEditSchoolClassWindow(this)">editieren</button>
+                <div class="editSchoolClass" th:data-id="${SchoolClass.Id}" th:id="'editSchoolClassWindow' + ${SchoolClass.Id}">
 
                     <label for="">Klasse: </label>
-                    <input type="text" th:id="'editClassName' + ${SchoolClass.Id}">
+                    <input type="text" class="className" onchange="updateSchoolClass(this)">
                     <label for="">Fach: </label>
-                    <input type="text" th:id="'editSubject' + ${SchoolClass.Id}">
-                    <button th:data-id=${SchoolClass.Id} onclick="updateSchoolClass(this.getAttribute('data-id'))">ändern</button>
-
+                    <input type="text" class="classSubject" onchange="updateSchoolClass(this)">
                 </div>
                 
             </ul>
@@ -69,13 +67,22 @@
         return selector;
     }
 
-    function openEditSchoolClassWindow(id, name, subject) {
+    function openEditSchoolClassWindow(buttonElement) {
         closeAll();
-        var selector = "#editSchoolClassWindow" + id;
-        $(selector).toggle();
+        let divAbove = buttonElement.parentElement.querySelector(".editSchoolClass");
+        toggle(divAbove);
 
-        $(selector + ' #editClassName' + id).val(name);
-        $(selector + ' #editSubject' + id).val(subject);
+        divAbove.querySelector(".className").value = divAbove.parentElement.dataset.name;
+        divAbove.querySelector(".classSubject").value = divAbove.parentElement.dataset.subject;
+
+        buttonElement.innerHTML = "ausblenden";
+
+
+<!--        var selector = "#editSchoolClassWindow" + id;-->
+<!--        $(selector).toggle();-->
+
+<!--        $(selector + ' #editClassName' + id).val(name);-->
+<!--        $(selector + ' #editSubject' + id).val(subject);-->
     }
 
     function openNewSchoolClassWindow() {

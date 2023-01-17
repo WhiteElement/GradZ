@@ -1,6 +1,6 @@
 bugs
 -------
-
+- schriftlich / mündlich gewichtung sollte man nicht bestätigen müssen, alle anderen muss man ja auc nicht
 
 
 todos
@@ -10,9 +10,11 @@ todos
 - services einfügen
 - styling
 - lehrer anlegen (login etc)
-- klassenliste machen
 - input control /bindingresult has errors....
 - Note und Beschreibung sollte man ändern können
-- Averages auf der DB speichern oder nicht?
 
 -notizen zu Schülern sollen hinzufügbar sein, damit man nachher weiß, warum man bspw. diese mdl. Note gegeben hat für ein Elterngespräch
+
+-gradetest muss löschbar sein / typ muss änderbar sein
+
+-wenn man eine neue schriftliche datenbank dazugefügt hat, dann hat es die noten nicht mitverschoben und plötzlich hatte im overview der neue gradetest die noten der mdl note

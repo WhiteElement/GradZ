@@ -24,8 +24,12 @@ public class Student {
 
     @OneToMany ( cascade = CascadeType.ALL, mappedBy = "student")
     private List<Grade> grades = new ArrayList<>();
+
+    @Transient
     private Float oralAverage;
+    @Transient
     private Float writtenAverage;
+    @Transient
     private Float totalAverage;
 
     public Student(Long id, String firstName, String lastName) {

@@ -26,4 +26,13 @@ public class GradeTestService {
         }
         return weightingsmap;
     }
+
+    public void save(GradeTest gradeTest) {
+        gradeTestRepository.save(gradeTest);
+    }
+
+    public void delete(Long id) {
+        gradeTestRepository.deleteById(id);
+    }
+
 }

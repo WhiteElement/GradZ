@@ -10,12 +10,22 @@
 
 </head>
 <body>
+
 <button onclick="goBackLevels(1)">zurück</button>
-
-<h1 th:text="${currentGradeTest.testName}"></h1>
-<h2 th:text="${currentGradeTest.testDescription}"></h2>
-<p th:text="${currentGradeTest.schoolClass.className} + ' - ' + ${currentGradeTest.schoolClass.subject}"></p>
-
+<section>
+    <h1 id="gradeTestName" th:data-id="${currentGradeTest.Id}" th:text="${currentGradeTest.testName}"></h1>
+    <h2 id="gradeTestDescription" th:text="${currentGradeTest.testDescription}"></h2>
+    <p th:text="${currentGradeTest.schoolClass.className} + ' - ' + ${currentGradeTest.schoolClass.subject}"></p>
+    <button onclick="toggleClassEdit()">Name / Beschreibung ändern</button>
+    <button onclick="deleteGradeTest()">Note löschen</button>
+    <div id="ClassEdit">
+        <p>Klassenarbeit</p>
+        <label for="">Name</label>
+        <input type="text" id="name" onchange="updateClassInfo()">
+        <label for="">Beschreibung</label>
+        <input type="text" id="description" onchange="updateClassInfo()">
+    </div>
+</section>
 <table>
     <thead>
         <th>#</th>
@@ -30,7 +40,7 @@
             <tr th:each="student, iterStat : *{StudentGradeDaoList}">
                 <td th:text="${iterStat.count}"></td>
                 <td th:text="${student.firstName}"></td>
-                <td th:text="${student.lastName}"</td>
+                <td th:text="${student.lastName}"></td>
                 <td><input type="text"
                            th:field="*{StudentGradeDaoList[__${iterStat.index}__].Grade}"></td>
                 <input type="hidden"
@@ -46,4 +56,49 @@
 </table>
 
 </body>
+
+<script>
+    function toggleClassEdit() {
+        var elem = document.querySelector("#ClassEdit");
+        toggle(elem);
+        document.querySelector("#name").value = document.querySelector("#gradeTestName").innerHTML;
+        document.querySelector("#description").value = document.querySelector("#gradeTestDescription").innerHTML;
+    }
+
+    async function updateClassInfo() {
+
+        var classFormData = {
+            id : parseInt(document.querySelector("#gradeTestName").dataset.id),
+            testName : document.querySelector("#name").value,
+            testDescription : document.querySelector("#description").value
+        };
+
+        await fetch(window.location.href + "/class", {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(classFormData)
+        });
+
+        document.querySelector("#gradeTestName").innerHTML = classFormData.testName;
+        document.querySelector("#gradeTestDescription").innerHTML = classFormData.testDescription;
+    }
+
+    async function deleteGradeTest() {
+
+        if(confirm("Note wirklich löschen? ACHTUNG: Dadurch gehen alle Noten der Schüler hierfür verloren.") == true) {
+
+            var url = window.location.href;
+            await fetch(url, {
+                method : "DELETE",
+                headers: {
+                'Content-Type': 'application/json'
+                },
+            });
+            goBackLevels(1);
+        }
+    }
+
+</script>
 </html>
