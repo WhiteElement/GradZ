@@ -28,6 +28,7 @@
                     <input type="text" class="className" onchange="updateSchoolClass(this)">
                     <label for="">Fach: </label>
                     <input type="text" class="classSubject" onchange="updateSchoolClass(this)">
+                    <button onclick="deleteSchoolClass(this)">Klasse löschen</button>
                 </div>
                 
             </ul>
@@ -68,26 +69,50 @@
     }
 
     function openEditSchoolClassWindow(buttonElement) {
-        closeAll();
+        let allButtons = document.querySelectorAll("ul > button");
+        for (let singleButton of allButtons) {
+            if(singleButton.innerHTML == "ausblenden") {
+                singleButton.innerHTML = "editieren";
+            }
+        }
+        var stateOpen = false;
+        let displayElement = buttonElement.parentElement.querySelector(".editSchoolClass");
         let divAbove = buttonElement.parentElement.querySelector(".editSchoolClass");
-        toggle(divAbove);
+        if (displayElement.style.display != "none") {
+            stateOpen = true;
+        }
 
-        divAbove.querySelector(".className").value = divAbove.parentElement.dataset.name;
-        divAbove.querySelector(".classSubject").value = divAbove.parentElement.dataset.subject;
-
-        buttonElement.innerHTML = "ausblenden";
-
-
-<!--        var selector = "#editSchoolClassWindow" + id;-->
-<!--        $(selector).toggle();-->
-
-<!--        $(selector + ' #editClassName' + id).val(name);-->
-<!--        $(selector + ' #editSubject' + id).val(subject);-->
+        closeAll();
+        if (stateOpen) {
+        } else {
+            divAbove.style.display = "block";
+            buttonElement.innerHTML = "ausblenden";
+            divAbove.querySelector(".className").value = divAbove.parentElement.dataset.name;
+            divAbove.querySelector(".classSubject").value = divAbove.parentElement.dataset.subject;
+        }
     }
 
     function openNewSchoolClassWindow() {
         closeAll();
         $('#newSchoolClass').toggle();
+    }
+
+    async function deleteSchoolClass(buttonElement) {
+        if (confirm("Achtung: Wirklich die ganze Klasse löschen?") == true) {
+            let url = cleanUpUrl(window.location.href);
+            let queryString = url + "?del=" + buttonElement.parentElement.dataset.id;
+            const response = await fetch(queryString, {
+                method : "DELETE",
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            });
+            if(!response.ok) {
+                throw response;
+            } else {
+                buttonElement.parentElement.parentElement.style.display = "none";
+            }
+        }
     }
 
 
