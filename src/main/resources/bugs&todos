@@ -1,3 +1,8 @@
+was in der Zukunft noch kommen soll
+---------------
+-inputvalidation
+-notizen zu schülern
+
 bugs
 -------
 - schriftlich / mündlich gewichtung sollte man nicht bestätigen müssen, alle anderen muss man ja auc nicht
@@ -10,10 +15,7 @@ todos
 - services einfügen
 - styling
 - lehrer anlegen (login etc)
-- input control /bindingresult has errors....
 - Note und Beschreibung sollte man ändern können
-
--notizen zu Schülern sollen hinzufügbar sein, damit man nachher weiß, warum man bspw. diese mdl. Note gegeben hat für ein Elterngespräch
 
 -gradetest muss löschbar sein / typ muss änderbar sein
 
@@ -24,3 +26,13 @@ todos
 index
 ------
 -button schrift muss togglebar sein
+
+
+
+
+
+
+Was hat das Projekt alles:
+frontend
+
+backend

@@ -2,16 +2,18 @@ package com.manu.GradeR.SchoolClass;
 
 import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestRepository;
+import com.manu.GradeR.GradeTest.GradeTestService;
 import com.manu.GradeR.GradeTest.GradeTestType;
-import com.manu.GradeR.Student.StudentRepository;
 import com.manu.GradeR.Student.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.*;
 
@@ -19,14 +21,8 @@ import java.util.*;
 public class SchoolClassController {
 
     @Autowired
-    SchoolClassRepository schoolClassRepository;
+    GradeTestService gradeTestService;
 
-    @Autowired
-    GradeTestRepository gradeTestRepository;
-
-    @Autowired
-    StudentRepository studentRepository;
-    
     @Autowired
     StudentService studentService;
 
@@ -45,9 +41,12 @@ public class SchoolClassController {
     }
 
     @PostMapping("/")
-    public String newSchoolClass(SchoolClass schoolClassFormData) {
-        schoolClassService.save(schoolClassFormData);
+    public String newSchoolClass(SchoolClass schoolClassFormData, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "redirect:/";
+        }
 
+        schoolClassService.save(schoolClassFormData);
         return "redirect:/";
     }
 
@@ -61,20 +60,22 @@ public class SchoolClassController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @DeleteMapping("/del")
+    public ResponseEntity deleteSchoolClass(@RequestParam("id") Long Id) {
+        schoolClassService.deleteById(Id);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("/schoolclasses/{id}")
     public String showSingleClass(@PathVariable Long id, Model model) {
-
-        SchoolClass currentSchoolClass = schoolClassRepository.findById(id).get();
-
-        List<GradeTest> writtenGradeTests = gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass);
+        SchoolClass currentSchoolClass = schoolClassService.getReferenceById(id);
 
         model.addAttribute("studentavg", studentService.getAllStudentsWithAverages(currentSchoolClass));
-
         model.addAttribute("newGradeTest", new GradeTest());
         model.addAttribute("currentSchoolClass", currentSchoolClass);
-        model.addAttribute("writtenGradeTests", writtenGradeTests);
-        model.addAttribute("oralGradeTests", gradeTestRepository.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
-        model.addAttribute("students", studentService.getAllStudentsFromClassOrdered(currentSchoolClass));
+        model.addAttribute("writtenGradeTests", gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass));
+        model.addAttribute("oralGradeTests", gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
 
         return "single_class";
     }

@@ -25,4 +25,7 @@ public class SchoolClassService {
         return schoolClassRepository.findAll();
     }
 
+    public void deleteById(Long id) {
+        schoolClassRepository.deleteById(id);
+    }
 }

@@ -35,4 +35,7 @@ public class GradeTestService {
         gradeTestRepository.deleteById(id);
     }
 
+    public List<GradeTest> findByGradeTypeAndSchoolClass(GradeTestType type, SchoolClass schoolClass) {
+        return gradeTestRepository.findByGradeTypeAndSchoolClass(type, schoolClass);
+    }
 }

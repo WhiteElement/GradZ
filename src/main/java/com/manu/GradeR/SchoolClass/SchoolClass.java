@@ -5,6 +5,9 @@ import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.Student.Student;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;

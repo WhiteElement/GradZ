@@ -37,7 +37,7 @@
 
     </div>
 
-    <button onclick="openNewSchoolClassWindow()">neue Klasse anlegen</button>
+    <button onclick="openNewSchoolClassWindow(this)">neue Klasse anlegen</button>
 
     <div id="newSchoolClass">
         <h2>neue Klasse erstellen</h2>
@@ -50,6 +50,7 @@
             <input type="text" th:field="*{subject}">
 
             <input type="submit" value="anlegen">
+            <p th:if="#{fields.hasErrors('className')}" th:errors="*{className}"></p>
         </form>
     </div>
 
@@ -92,15 +93,22 @@
         }
     }
 
-    function openNewSchoolClassWindow() {
-        closeAll();
-        $('#newSchoolClass').toggle();
+    function openNewSchoolClassWindow(buttonElement) {
+        toggle(document.querySelector('#newSchoolClass'));
+
+        let newString = "neue Klasse anlegen";
+
+        if(buttonElement.innerHTML == newString) {
+            buttonElement.innerHTML = "ausblenden";
+        } else {
+            buttonElement.innerHTML = newString;
+        }
     }
 
     async function deleteSchoolClass(buttonElement) {
         if (confirm("Achtung: Wirklich die ganze Klasse löschen?") == true) {
             let url = cleanUpUrl(window.location.href);
-            let queryString = url + "?del=" + buttonElement.parentElement.dataset.id;
+            let queryString = url + "/del?id=" + buttonElement.parentElement.dataset.id;
             const response = await fetch(queryString, {
                 method : "DELETE",
                 headers : {
