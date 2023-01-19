@@ -64,4 +64,14 @@ td.avgdisplay {
     display: none;
 }
 
+#plusbutton:hover{
+    cursor: pointer;
+}
 
+td #firstName, td #lastName, td #createbutton {
+    display: none;
+}
+
+table#main.table input {
+    max-width: 70px;
+}

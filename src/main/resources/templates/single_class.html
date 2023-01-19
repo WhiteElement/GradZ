@@ -14,12 +14,11 @@
         <button onclick="goBackLevels(2)">zurück</button>
         <h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
         <button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
-        <div id="editSchoolClass">
+        <div id="editSchoolClass" th:data-id="${currentSchoolClass.Id}">
             <label for="">Klasse:</label>
-            <input type="text" id="className">
+            <input type="text" class="className" id="className" onchange="updateSchoolClass(this)">
             <label for="">Fach:</label>
-            <input type="text" id="subject">
-            <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
+            <input type="text" class="classSubject" id="classSubject" onchange="updateSchoolClass(this)">
         </div>
     </section>
     <section id="overview">
@@ -41,7 +40,7 @@
 
         </div>
         <div>
-            <button onclick="window.location.href=window.location.href + '/students'">Klassenliste anzeigen</button><br/>
+            <button onclick="window.location.href=window.location.href + '/students'">Schüler bearbeiten</button><br/>
             <button onclick="showHelperContent()">Note anlegen</button><br>
             <button onclick="showWeightings()">Gewichtung ändern</button>
         </div>
@@ -63,16 +62,6 @@
     </section>
 
     <section>
-
-        <button onclick="openNewStudentWindow()">neuer Schüler</button>
-        <div id="newStudent">
-            <label for="">Vorname</label>
-            <input type="text" id="firstName">
-            <label for="">Nachname</label>
-            <input type="text" id="lastName">
-            <button onclick="createNewStudent()">anlegen</button>
-        </div>
-
         <table id="main" class="table">
             <thead>
                 <tr>
@@ -146,6 +135,13 @@
                     <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')} ?: '-'"></td>
                 </tr>
                 <tr>
+                    <td><button id="plusbutton" onclick="openNewStudentWindow()">+</button></td>
+                    <td class="input"><input type="text" id="firstName"></td>
+                    <td class="input"><input type="text" id="lastName"></td>
+                    <td><button id="createbutton" onclick="createNewStudent()">anlegen</button></td>
+
+                </tr>
+                <tr>
                     <td class="emptycell" colspan="3"></td>
                     <th:block th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}">
                         <th:block th:switch="${#arrays.contains(gradeTest.grades.![grade], null)}">
@@ -159,9 +155,7 @@
                             </td>
                         </th:block>
                     </th:block>
-
                 </tr>
-
             </tbody>
         </table>
 

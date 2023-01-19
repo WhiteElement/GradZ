@@ -8,7 +8,7 @@ async function updateSchoolClass(inputelem) {
         subject : inputelem.parentElement.querySelector(".classSubject").value
     };
 
-    const response = await fetch(url +"updateSchoolClass", {
+    const response = await fetch("/updateSchoolClass", {
         method : "POST",
         headers : {
             "Content-Type" : "application/json"
@@ -26,7 +26,6 @@ async function updateSchoolClass(inputelem) {
 
 function closeAll() {
     $("#editSchoolClass").hide();
-    $("#newStudent").hide();
 }
 
 function openSchoolClassEdit() {
@@ -37,24 +36,29 @@ function openSchoolClassEdit() {
         $("#editSchoolClass").show();
 
         $("#editSchoolClass #className").val($("h1").data('classname'));
-        $("#editSchoolClass #subject").val($("h1").data('subject'));
+        $("#editSchoolClass #classSubject").val($("h1").data('subject'));
     }
 }
 
 function openNewStudentWindow() {
-    if($("#newStudent").is(":visible")) {
-        $("#newStudent").toggle();
-    } else {
-        closeAll();
-        $("#newStudent").show();
-    }
+    const elems = [document.querySelector("td #firstName"), document.querySelector("td #lastName")] ;
+
+    elems.forEach(elem => {
+        if(elem.style.display == "table-cell") {
+            elem.style.display = 'none';
+        } else {
+            elem.style.display = 'table-cell';
+        }
+        elem.value = "";
+    });
+
+    toggle(document.querySelector("td #createbutton"));
 }
 
 function createNewStudent() {
     var StudentFormData = {
-        firstName : $("#newStudent #firstName").val(),
-        lastName : $("#newStudent #lastName").val()
-
+        firstName : $("td #firstName").val(),
+        lastName : $("td #lastName").val()
     }
 
     $.ajax({
