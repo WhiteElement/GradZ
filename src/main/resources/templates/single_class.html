@@ -129,7 +129,9 @@
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${student.firstName}"></td>
                     <td th:text="${student.lastName}"></td>
-                    <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
+<!--                    <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>-->
+                    <td class="grade" th:each="grade : ${student.writtenGrades}" th:text="${grade.Grade}"></td>
+                    <td class="grade" th:each="grade : ${student.oralGrades}" th:text="${grade.Grade}"></td>
                     <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')} ?: '-'"></td>
                     <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')} ?: '-'"></td>
                     <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')} ?: '-'"></td>

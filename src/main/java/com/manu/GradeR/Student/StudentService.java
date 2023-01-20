@@ -47,7 +47,8 @@ public class StudentService {
             studentAverageDao.setId(student.getId());
             studentAverageDao.setFirstName(student.getFirstName());
             studentAverageDao.setLastName(student.getLastName());
-            studentAverageDao.setGrades(student.getGrades());
+            studentAverageDao.transferAndOrderGrades(gradeService.getAllGradesFromStudentByType(student.getId(), GradeTestType.WRITTEN), GradeTestType.WRITTEN);
+            studentAverageDao.transferAndOrderGrades(gradeService.getAllGradesFromStudentByType(student.getId(), GradeTestType.ORAL), GradeTestType.ORAL);
             studentAverageDaos.add(studentAverageDao);
         }
 
@@ -72,6 +73,7 @@ public class StudentService {
             Float gradeSum = 0f;
             boolean hasEmptyGrades = false;
 
+            //order by id?
             List<Grade> grades = gradeRepository.getAllGradesFromStudentByType(student.getId(), type);
 
             if(!studentHasGrades(grades)) {
@@ -89,6 +91,7 @@ public class StudentService {
                         gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
                     }
                 }
+
                 if (type == GradeTestType.WRITTEN) {
                     if(hasEmptyGrades) {
                         student.setWrittenAverage(null);

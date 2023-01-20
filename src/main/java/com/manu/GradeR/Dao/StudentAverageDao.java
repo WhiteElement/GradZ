@@ -1,26 +1,35 @@
 package com.manu.GradeR.Dao;
 
 import com.manu.GradeR.Grade.Grade;
+import com.manu.GradeR.Grade.GradeService;
+import com.manu.GradeR.GradeTest.GradeTestType;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentAverageDao {
 
+    @Autowired
+    GradeService gradeService;
+
     private Long Id;
     private String firstName;
     private String lastName;
-    private List<Grade> grades;
+    private List<Grade> writtenGrades = new ArrayList<>();
+    private List<Grade> oralGrades = new ArrayList<>();
     private Float writtenAverage;
     private Float oralAverage;
     private Float totalAverage;
 
     public StudentAverageDao(){}
 
-    public StudentAverageDao(Long id, String firstName, String lastName, List<Grade> grades, Float writtenAverage, Float oralAverage, Float totalAverage) {
+    public StudentAverageDao(Long id, String firstName, String lastName, List<Grade> writtenGrades, List<Grade> oralGrades, Float writtenAverage, Float oralAverage, Float totalAverage) {
         Id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.grades = grades;
+        this.writtenGrades = writtenGrades;
+        this.oralGrades = oralGrades;
         this.writtenAverage = writtenAverage;
         this.oralAverage = oralAverage;
         this.totalAverage = totalAverage;
@@ -59,12 +68,20 @@ public class StudentAverageDao {
         this.lastName = lastName;
     }
 
-    public List<Grade> getGrades() {
-        return grades;
+    public List<Grade> getWrittenGrades() {
+        return writtenGrades;
     }
 
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
+    public void setWrittenGrades(List<Grade> writtenGrades) {
+        this.writtenGrades = writtenGrades;
+    }
+
+    public List<Grade> getOralGrades() {
+        return oralGrades;
+    }
+
+    public void setOralGrades(List<Grade> oralGrades) {
+        this.oralGrades = oralGrades;
     }
 
     public Float getWrittenAverage() {
@@ -90,4 +107,19 @@ public class StudentAverageDao {
     public void setTotalAverage(Float totalAverage) {
         this.totalAverage = totalAverage;
     }
+
+    public void transferAndOrderGrades(List<Grade> grades, GradeTestType type) {
+
+        if(type == GradeTestType.WRITTEN){
+            for(Grade grade : grades) {
+                this.writtenGrades.add(grade);
+            }
+        } else {
+            for(Grade grade : grades) {
+                this.oralGrades.add(grade);
+            }
+        }
+    }
+
+
 }

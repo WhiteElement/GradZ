@@ -25,6 +25,12 @@ todos
 
 index
 ------
+-bug: einer der buttons switch unter umständen seine aufschriften falsch
+
+single_class
+------------
+-in controllern services einfügen
+-wenn keie Noten eingetragen sind und nur Arbeiten, dann scheinen die Tabelleninhalte nicht zu stimmen
 
 
 
