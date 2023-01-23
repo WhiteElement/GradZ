@@ -78,6 +78,31 @@ public class SchoolClassController {
         return "single_class";
     }
 
+    @GetMapping("/schoolclasses/{schoolclassid}/weightings")
+    public String showWeightings(Model model, @PathVariable Long schoolclassid) {
+
+        SchoolClass schoolClass = schoolClassService.findById(schoolclassid);
+        List<GradeTest> writtenGradeTests = gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, schoolClass);
+        List<GradeTest> oralGradeTests = gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, schoolClass);
+
+        model.addAttribute("currentSchoolClass", schoolClass);
+        model.addAttribute("writtenGradeTests", writtenGradeTests);
+        model.addAttribute("oralGradeTests", oralGradeTests);
+
+        return "weightings";
+    }
+
+    @PostMapping("/schoolclasses/{schoolclassid}/weightings/class")
+    public ResponseEntity updateWeightingOnSchoolClass (@PathVariable Long schoolclassid,
+                                                        @RequestBody SchoolClass schoolClassFormData) {
+        SchoolClass schoolClass = schoolClassService.getReferenceById(schoolclassid);
+        schoolClass.setWrittenWeighting(schoolClassFormData.getWrittenWeighting());
+        schoolClass.setOralWeighting(schoolClassFormData.getOralWeighting());
+
+        schoolClassService.save(schoolClass);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 }
 

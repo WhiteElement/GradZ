@@ -28,4 +28,8 @@ public class SchoolClassService {
     public void deleteById(Long id) {
         schoolClassRepository.deleteById(id);
     }
+
+    public SchoolClass findById(Long schoolclassid) {
+        return schoolClassRepository.getReferenceById(schoolclassid);
+    }
 }

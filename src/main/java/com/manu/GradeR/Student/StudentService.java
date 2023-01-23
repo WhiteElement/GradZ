@@ -1,6 +1,7 @@
 package com.manu.GradeR.Student;
 
 import com.manu.GradeR.Dao.StudentAverageDao;
+import com.manu.GradeR.Dao.StudentGradeDao;
 import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.Grade.GradeRepository;
 import com.manu.GradeR.Grade.GradeService;
@@ -143,5 +144,9 @@ public class StudentService {
 
     public void deleteById(Long studentId) {
         studentRepository.deleteById(studentId);
+    }
+
+    public List<StudentGradeDao> getStudentsWithGradesFromSpecificGradeTest(Long gradetestid, Long schoolclassid) {
+        return studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid, schoolclassid);
     }
 }
