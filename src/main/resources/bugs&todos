@@ -12,7 +12,6 @@ todos
 -------
 
 - alle kommentare durschauen
-- services einfügen
 - styling
 - lehrer anlegen (login etc)
 - Note und Beschreibung sollte man ändern können
@@ -30,9 +29,6 @@ index
 
 single_class
 ------------
--in controllern services einfügen
--wenn keie Noten eingetragen sind und nur Arbeiten, dann scheinen die Tabelleninhalte nicht zu stimmen
-
 
 weightings
 -----------

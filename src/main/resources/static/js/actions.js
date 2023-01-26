@@ -89,10 +89,6 @@ function goBackLevels(slashesToRemove) {
     window.location.replace(url);
 }
 
-function showWeightings() {
-    window.location.replace(window.location.href + '/weightings');
-}
-
 function toggle(elem) {
     if(elem.style.display == "block") {
         elem.style.display = 'none';
