@@ -29,6 +29,10 @@ function closeAll() {
 }
 
 function openSchoolClassEdit() {
+    if($("#helpercontent").is(":visible")) {
+        $("#helpercontent").toggle();
+    }
+
     if($("#editSchoolClass").is(":visible")) {
         $("#editSchoolClass").toggle();
     } else {
@@ -38,6 +42,7 @@ function openSchoolClassEdit() {
         $("#editSchoolClass #className").val($("h1").data('classname'));
         $("#editSchoolClass #classSubject").val($("h1").data('subject'));
     }
+
 }
 
 function openNewStudentWindow() {
@@ -72,6 +77,9 @@ function createNewStudent() {
 }
 
 function showHelperContent() {
+    if($("#editSchoolClass").is(":visible")) {
+        $("#editSchoolClass").toggle();
+    }
     $("#helpercontent").toggle();
 }
 

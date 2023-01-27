@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div id="helpercontent">
-                <h3>Neue Note</h3>
+                <p>Neue Note</p>
                 <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentSchoolClass.Id})}" th:object="${newGradeTest}">
                     <input type="radio" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
                     <label for="written">schriftlich</label>
