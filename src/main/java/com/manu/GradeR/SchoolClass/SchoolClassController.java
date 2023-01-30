@@ -71,7 +71,7 @@ public class SchoolClassController {
 
         model.addAttribute("studentavg", studentService.getAllStudentsWithAverages(currentSchoolClass));
         model.addAttribute("newGradeTest", new GradeTest());
-        model.addAttribute("currentSchoolClass", currentSchoolClass);
+        model.addAttribute("currentClass", currentSchoolClass);
         model.addAttribute("writtenGradeTests", gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, currentSchoolClass));
         model.addAttribute("oralGradeTests", gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, currentSchoolClass));
 
@@ -85,7 +85,7 @@ public class SchoolClassController {
         List<GradeTest> writtenGradeTests = gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.WRITTEN, schoolClass);
         List<GradeTest> oralGradeTests = gradeTestService.findByGradeTypeAndSchoolClass(GradeTestType.ORAL, schoolClass);
 
-        model.addAttribute("currentSchoolClass", schoolClass);
+        model.addAttribute("currentClass", schoolClass);
         model.addAttribute("writtenGradeTests", writtenGradeTests);
         model.addAttribute("oralGradeTests", oralGradeTests);
 

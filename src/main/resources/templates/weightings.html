@@ -17,9 +17,9 @@
     <p>
 
         <th:block th:text="'Schriftlich '"></th:block>
-        <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'nicht festgelegt'"></th:block>
+        <th:block th:text="${currentClass.writtenWeighting} ?: 'nicht festgelegt'"></th:block>
         <th:block th:text="' : Mündlich '"></th:block>
-        <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'nicht festgelegt'"></th:block>
+        <th:block th:text="${currentClass.oralWeighting} ?: 'nicht festgelegt'"></th:block>
     </p>
     <button onclick="toggleWeightingsTable()">Gewichtung ändern</button>
     <div id="weightingstable">
@@ -30,9 +30,9 @@
                 <th>Mündlich</th>
             </tr>
             <tr>
-                <td><input type="number" id="writtenWeightingSchoolClass" th:value="${currentSchoolClass.writtenWeighting} ?: ''"></td>
+                <td><input type="number" id="writtenWeightingSchoolClass" th:value="${currentClass.writtenWeighting} ?: ''"></td>
                 <td> : </td>
-                <td><input type="number" id="oralWeightingSchoolClass" th:value="${currentSchoolClass.oralWeighting} ?: ''"></td>
+                <td><input type="number" id="oralWeightingSchoolClass" th:value="${currentClass.oralWeighting} ?: ''"></td>
             </tr>
         </table>
         <button onclick="updateWeightingsForSchoolClass()">ändern</button>

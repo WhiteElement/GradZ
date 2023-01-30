@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" >
-    <title th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></title>
+    <title th:text="${currentClass.className} + ' - ' + ${currentClass.subject}"></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script th:src="@{/js/actions.js}"></script>
     <link th:href="@{/css/styles.css}" rel="stylesheet">
@@ -11,39 +11,25 @@
 </head>
 <body class="bg-light">
 
-<div class="content-wrapper">
+<div th:replace="~{fragments/navbar}"></div>
 
-    <header>
-        <button class="btn btn-primary" onclick="goBackLevels(2)">&#8592 zurück</button>
-        <h1 style="display:inline" th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
-        <button style="float:right" class="btn btn-danger" onclick="alert('nicht belegt');">Logout</button>
-    </header>
-</div>
-<nav class="navbar navbar-expand bg-dark">
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active text-white" href="#" onclick="window.location.href=window.location.href + '/students'">Schüler</a></li>
-        <li class="nav-item">
-            <a class="nav-link active text-white" href="#" onclick="window.location.href=window.location.href + '/weightings'">Gewichtungen</a></li>
-    </ul>
-</nav>
 <div class="content-wrapper">
     <section class="content bg-white border">
         <h3>Allgemeine Informationen</h3>
         <div id="overview">
             <div>
-                <span th:text="'Klasse: ' + ${currentSchoolClass.className}"></span>   <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
+                <span th:text="'Klasse: ' + ${currentClass.className}"></span>   <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
                 <br>
-                <span th:text="'Fach: ' + ${currentSchoolClass.subject}"></span>  <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
-                <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
+                <span th:text="'Fach: ' + ${currentClass.subject}"></span>  <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
+                <p th:text="'Schüler: ' + ${#lists.size(currentClass.students)}">Schüler: 14</p>
             </div>
             <div>
                 <th:block>
                     <p>
                         <th:block th:text="'Gewichtung (schriftlich/mündlich): '"></th:block>
-                        <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
+                        <th:block th:text="${currentClass.writtenWeighting} ?: 'x'"></th:block>
                         <th:block th:text="' : '"></th:block>
-                        <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
+                        <th:block th:text="${currentClass.oralWeighting} ?: 'x'"></th:block>
                     </p>
                 </th:block>
                 <div id="newgrade">
@@ -59,7 +45,7 @@
             </div>
 
             <div>
-                <div id="editSchoolClass" th:data-id="${currentSchoolClass.Id}">
+                <div id="editSchoolClass" th:data-id="${currentClass.Id}">
                     <label for="">Klasse:</label>
                     <input type="text" class="className" id="className" onchange="updateSchoolClass(this)">
                     <label for="">Fach:</label>
@@ -68,17 +54,17 @@
             </div>
             <div id="helpercontent">
                 <p>Neue Note</p>
-                <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentSchoolClass.Id})}" th:object="${newGradeTest}">
+                <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentClass.Id})}" th:object="${newGradeTest}">
                     <input type="radio" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
                     <label for="written">schriftlich</label>
                     <input type="radio" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
                     <label for="oral">mündlich</label><br>
 
                     <label for="">Name:</label>
-                    <input type="text" th:field="*{testName}"><br>
+                    <input type="text" th:field="*{testName}">
                     <label for="">Beschreibung:</label>
-                    <input type="text" th:field="*{testDescription}"><br>
-                    <input type="submit" value="anlegen">
+                    <input type="text" th:field="*{testDescription}">
+                    <input class="btn btn-sm btn-primary" type="submit" value="anlegen">
                 </form>
             </div>
         </div>
@@ -130,9 +116,9 @@
                     <th:block>
                         <th rowspan="2">
                             <th:block th:text="'Gesamt ('"></th:block>
-                            <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="${currentClass.writtenWeighting} ?: 'x'"></th:block>
                             <th:block th:text="' : '"></th:block>
-                            <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="${currentClass.oralWeighting} ?: 'x'"></th:block>
                             <th:block th:text="')'"></th:block>
                         </th>
                     </th:block>
