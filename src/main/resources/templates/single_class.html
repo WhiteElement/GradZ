@@ -46,25 +46,51 @@
 
             <div>
                 <div id="editSchoolClass" th:data-id="${currentClass.Id}">
-                    <label for="">Klasse:</label>
-                    <input type="text" class="className" id="className" onchange="updateSchoolClass(this)">
-                    <label for="">Fach:</label>
-                    <input type="text" class="classSubject" id="classSubject" onchange="updateSchoolClass(this)">
+                   <div class="form-group row">
+                        <div class="col">
+                            <label for="">Klasse:</label>
+                            <input type="text" class="className form-control" id="className" onchange="updateSchoolClass(this)">
+                        </div>
+                       <div class="col">
+                            <label for="">Fach:</label>
+                            <input type="text" class="classSubject form-control" id="classSubject" onchange="updateSchoolClass(this)">
+                       </div>
+                   </div>
                 </div>
             </div>
             <div id="helpercontent">
-                <p>Neue Note</p>
+                <b>Neue Note</b>
                 <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentClass.Id})}" th:object="${newGradeTest}">
-                    <input type="radio" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
-                    <label for="written">schriftlich</label>
-                    <input type="radio" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
-                    <label for="oral">mündlich</label><br>
+                   <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
+                        <label for="written">schriftlich</label>
+                   </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
+                        <label for="oral">mündlich</label><br>
+                    </div>
 
-                    <label for="">Name:</label>
-                    <input type="text" th:field="*{testName}">
-                    <label for="">Beschreibung:</label>
-                    <input type="text" th:field="*{testDescription}">
-                    <input class="btn btn-sm btn-primary" type="submit" value="anlegen">
+<!--                    <div class="form-group">-->
+<!--                        <label for="">Name:</label>-->
+<!--                        <input type="text" class="form-control form-control-sm" th:field="*{testName}">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="">Beschreibung:</label>-->
+<!--                        <input type="text" class="form-control form-control-sm" th:field="*{testDescription}">-->
+<!--                    </div>-->
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="text" placeholder="Name" class="form-control form-control-sm" th:field="*{testName}">
+                        </div>
+                        <div class="col-7">
+                            <input type="text" placeholder="Beschreibung" class="form-control form-control-sm" th:field="*{testDescription}">
+                        </div>
+                    <div class="col-1">
+                        <input class="btn btn-sm btn-primary" type="submit" value="anlegen">
+                    </div>
+                    </div>
+
+
                 </form>
             </div>
         </div>
@@ -72,6 +98,7 @@
 
     <section class="content bg-white border">
         <table id="main" class="table">
+            <caption>- : fehlende Gewichtung / fehlende Noten</caption>
             <h3>Übersicht</h3>
             <thead>
                 <tr>
@@ -170,7 +197,7 @@
             </tbody>
         </table>
 
-        <span id="weightingswarning"> - : fehlende Gewichtung / fehlende Noten</span>
+<!--        <span id="weightingswarning"> - : fehlende Gewichtung / fehlende Noten</span>-->
     </section>
 </div>
 <script>
