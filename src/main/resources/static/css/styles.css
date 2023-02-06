@@ -119,6 +119,10 @@ header {
     justify-content: space-between;
 }
 
+button.hiddenButton {
+    display: none;
+}
+
 
 
 

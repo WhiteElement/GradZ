@@ -14,9 +14,9 @@
 
     <div class="content-wrapper">
         <section class="bg-white border p-3">
-            <h3>Verhältnis Schriftlich / Mündlich</h3>
+            <h3><b>Gewichtung </b><span class="text-muted">Schriftlich / Mündlich</span></h3>
 
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg d-flex justify-content-center">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Schriftlich : Mündlich</span>
                 </div>
@@ -33,7 +33,7 @@
 
     <div class="bg-white border p-3">
         <section>
-            <h3>Einzelne Arbeiten</h3>
+            <h3><b>Gewichtung </b><span class="text-muted">Einzelner Noten </span></h3>
             <div class="d-flex justify-content-around pt-3">
                <div>
                     <h4>Schriftlich</h4>
@@ -44,7 +44,7 @@
                                 <span class="input-group-text" th:text="${gradeTest.testName}"></span>
                             </div>
                             <div class="col-4">
-                                <input type="number" th:id="${gradeTest.Id}" class="weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
+                                <input type="number" th:id="${gradeTest.Id}" class="written weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
                             </div>
                         </div>
                     </th:block>
@@ -69,7 +69,7 @@
                                 <span class="input-group-text" th:text="${gradeTest.testName}"></span>
                             </div>
                             <div class="col-4">
-                                <input type="number" th:id="${gradeTest.Id}" class="weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
+                                <input type="number" th:id="${gradeTest.Id}" class="oral weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
                             </div>
                         </div>
                     </th:block>
@@ -95,12 +95,12 @@
 <script>
     $("#sameWeightingWritten").change(function() {
         if( $(this).is(":checked") ) {
-            $("table#written .weightingnumber").each(function() {
+            $(".written.weightingnumber.form-control").each(function() {
                 $(this).val('1');
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
         } else {
-            $("table#written .weightingnumber").each(function() {
+            $(".written.weightingnumber.form-control").each(function() {
                 $(this).val("");
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
@@ -109,12 +109,12 @@
 
         $("#sameWeightingOral").change(function() {
         if( $(this).is(":checked") ) {
-            $("table#oral .weightingnumber").each(function() {
+            $(".oral.weightingnumber.form-control").each(function() {
                 $(this).val('1');
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
         } else {
-            $("table#oral .weightingnumber").each(function() {
+            $(".oral.weightingnumber.form-control").each(function() {
                 $(this).val("");
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })

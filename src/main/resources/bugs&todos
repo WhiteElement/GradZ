@@ -29,14 +29,14 @@ index
 
 single_class
 ------------
-+ Note und Toggle-Editierung der Klasse/Subject schöner machen
-- url weiterleitung bei "Schüler" und "Gewichtung" fixen.
+    + Note und Toggle-Editierung der Klasse/Subject schöner machen
+    - url weiterleitung bei "Schüler" und "Gewichtung" fixen.
 
 weightings
 -----------
--schriftlich / mündlich muss geändert werden
+    -schriftlich / mündlich muss geändert werden
 -schriftlich mündlich eingabe von % muss gecheckt werden
--funktionalität von "alle schriftlichen Noten gleich werten?"
+    -funktionalität von "alle schriftlichen Noten gleich werten?"
 
 
 sonstiges
