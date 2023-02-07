@@ -1,26 +1,26 @@
 //index
 
-async function updateSchoolClass(inputelem) {
-    let url = window.location.href;
-    var SchoolClassFormData = {
-        id : parseInt(inputelem.parentElement.dataset.id),
-        className : inputelem.parentElement.querySelector(".className").value,
-        subject : inputelem.parentElement.querySelector(".classSubject").value
-    };
-
-    const response = await fetch("/updateSchoolClass", {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(SchoolClassFormData)
-    });
-
-    if(!response.ok) throw response;
-    if(response.ok) {
-        window.location.replace(url);
-    }
-}
+//async function updateSchoolClass(inputelem) {
+//    let url = window.location.href;
+//    var SchoolClassFormData = {
+//        id : parseInt(inputelem.parentElement.dataset.id),
+//        className : inputelem.parentElement.querySelector(".className").value,
+//        subject : inputelem.parentElement.querySelector(".classSubject").value
+//    };
+//
+//    const response = await fetch("/updateSchoolClass", {
+//        method : "POST",
+//        headers : {
+//            "Content-Type" : "application/json"
+//        },
+//        body : JSON.stringify(SchoolClassFormData)
+//    });
+//
+//    if(!response.ok) throw response;
+//    if(response.ok) {
+//        window.location.replace(url);
+//    }
+//}
 
 
 

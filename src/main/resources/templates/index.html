@@ -19,7 +19,7 @@
     <div id="availableSchoolClasses" class="container bg-white">
         <th:block th:unless="${allSchoolClasses} == null">
             <div class="row" th:each="SchoolClass : ${allSchoolClasses}">
-                <div class="col-sm-4 my-2 p-3 bg-secondary rounded d-flex" th:data-id="${SchoolClass.Id}" th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
+                <div class="col-sm-4 my-2 p-3 bg-primary border border-dark rounded d-flex" th:data-id="${SchoolClass.Id}" th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
                     <div>
                         <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
                             <h2 class="text-dark" th:text="${SchoolClass.className}"></h2>
@@ -27,38 +27,14 @@
                         </a>
                     </div>
                     <div>
-                        <button class="btn btn-sm bg-primary" onclick="enableSchoolClassEditing(this.parentElement.parentElement)">editieren</button>
-                        <button class="hiddenButton btn btn-sm bg-primary" onclick="updateSchoolClassData(this.parentElement.parentElement)">speichern</button>
+                        <button class="btn btn-sm bg-dark text-white" onclick="enableSchoolClassEditing(this.parentElement.parentElement)">editieren</button>
+                        <button class="hiddenButton btn btn-sm bg-dark text-white" onclick="updateSchoolClassData(this.parentElement.parentElement)">speichern</button>
                     </div>
-<!--                    <div class="editSchoolClass" th:data-id="${SchoolClass.Id}" th:id="'editSchoolClassWindow' + ${SchoolClass.Id}">-->
 
-<!--                        <label for="">Klasse: </label>-->
-<!--                        <input type="text" class="className" onchange="updateSchoolClass(this)">-->
-<!--                        <label for="">Fach: </label>-->
-<!--                        <input type="text" class="classSubject" onchange="updateSchoolClass(this)">-->
-<!--                        <button onclick="deleteSchoolClass(this)">Klasse löschen</button>-->
-<!--                    </div>-->
                 </div>
 
 
             </div>
-<!--            <ul th:each="SchoolClass : ${allSchoolClasses}" th:data-id="${SchoolClass.Id}" th:data-name="${SchoolClass.className}" th:data-subject="${SchoolClass.subject}">-->
-
-
-<!--                <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}"-->
-<!--                   th:text="${SchoolClass.className} + ' - ' + ${SchoolClass.subject}"></a>-->
-<!--                <button onclick="openEditSchoolClassWindow(this)">editieren</button>-->
-<!--                <div class="editSchoolClass" th:data-id="${SchoolClass.Id}" th:id="'editSchoolClassWindow' + ${SchoolClass.Id}">-->
-
-<!--                    <label for="">Klasse: </label>-->
-<!--                    <input type="text" class="className" onchange="updateSchoolClass(this)">-->
-<!--                    <label for="">Fach: </label>-->
-<!--                    <input type="text" class="classSubject" onchange="updateSchoolClass(this)">-->
-<!--                    <button onclick="deleteSchoolClass(this)">Klasse löschen</button>-->
-<!--                </div>-->
-                
-<!--            </ul>-->
-
         </th:block>
 
     </div>
@@ -91,13 +67,25 @@
     closeAll();
 
     async function updateSchoolClassData(containerElement) {
+        let url = window.location.href;
         let schoolClassFormData = {
             id : containerElement.dataset.id,
             className : containerElement.querySelector("h2 > input").value,
             subject :  containerElement.querySelector("h4 > input").value
         }
 
-        console.log(schoolClassFormData);
+        const response = await fetch("/updateSchoolClass", {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify(schoolClassFormData)
+        });
+
+        if(!response.ok) throw response;
+        if(response.ok) {
+            window.location.replace(url);
+        }
     }
 
     function editSelector(id) {
@@ -115,10 +103,6 @@
     function enableSchoolClassEditing(containerElement) {
 
         if(isAlreadyEnabled(containerElement)) {
-<!--            let inputs = containerElement.querySelectorAll("input");-->
-<!--            for(let input1 of inputs) {-->
-<!--                input1.remove();-->
-<!--            }-->
             window.location.reload();
         } else {
             const heading1 = containerElement.querySelector("h2");
@@ -135,7 +119,7 @@
         const hrefTag = headingElement.parentElement;
         hrefTag.removeAttribute("href");
         const h1text = headingElement.outerText;
-        headingElement.innerHTML = '<input type="text">';
+        headingElement.innerHTML = '<input class="form-control" type="text">';
         headingElement.querySelector("input").value = h1text;
     }
 
