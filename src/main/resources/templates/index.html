@@ -12,23 +12,28 @@
 
 </head>
 <body class="bg-light">
-<div class="content-wrapper">
+<h1 class="mx-auto">Gradio</h1>
+<div class="mx-auto w-50 bg-white border p-3">
 
-    <h1>Gradio</h1>
 
-    <div id="availableSchoolClasses" class="container bg-white">
+
+    <div id="availableSchoolClasses" class="col container">
+        <div>
+            <h2>deine Klassen</h2>
+            <button class="btn btn-sm btn-outline-secondary" onclick="openNewSchoolClassWindow(this)">+ Neue anlegen</button>
+        </div>
         <th:block th:unless="${allSchoolClasses} == null">
-            <div class="row" th:each="SchoolClass : ${allSchoolClasses}">
-                <div class="col-sm-4 my-2 p-3 bg-primary border border-dark rounded d-flex" th:data-id="${SchoolClass.Id}" th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
-                    <div>
+            <div class="mx-auto row w-50" th:each="SchoolClass : ${allSchoolClasses}">
+                <div class="w-100 col-sm-4 my-2 p-3 bg-primary border border-dark rounded d-flex justify-content-between align-items-end" th:data-id="${SchoolClass.Id}" th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
+                    <div class="col-8">
                         <a th:href="@{/schoolclasses/{schoolclassid}(schoolclassid=${SchoolClass.Id})}">
-                            <h2 class="text-dark" th:text="${SchoolClass.className}"></h2>
-                            <h4 class="text-muted" th:text="${SchoolClass.subject}"></h4>
+                            <h2 class="classHeadings text-dark" th:text="${SchoolClass.className}"></h2>
+                            <h4 class="classHeadings text-muted" th:text="${SchoolClass.subject}"></h4>
                         </a>
                     </div>
                     <div>
                         <button class="btn btn-sm bg-dark text-white" onclick="enableSchoolClassEditing(this.parentElement.parentElement)">editieren</button>
-                        <button class="hiddenButton btn btn-sm bg-dark text-white" onclick="updateSchoolClassData(this.parentElement.parentElement)">speichern</button>
+                        <button class="mt-2 hiddenButton btn btn-sm bg-dark text-white" onclick="updateSchoolClassData(this.parentElement.parentElement)">speichern</button>
                     </div>
 
                 </div>
@@ -39,21 +44,20 @@
 
     </div>
 
-    <button onclick="openNewSchoolClassWindow(this)">neue Klasse anlegen</button>
+    <div id="newSchoolClass"class="mx-auto row w-50">
+        <div class="w-100 col-sm-4 my-2 p-3 bg-secondary border border-dark rounded d-flex justify-content-between align-items-end">
+            <form action="#" method="POST" th:object="${newSchoolClass}">
 
-    <div id="newSchoolClass" class="bg-white">
-        <h2>neue Klasse erstellen</h2>
-        <form action="#" method="POST" th:object="${newSchoolClass}">
-            
-            <label>Klasse: </label>
-            <input type="text" th:field="*{className}"><br>
+                <label>Name</label>
+                <input type="text" placeholder="Klasse 6c" class="form-control" th:field="*{className}"><br>
 
-            <label>Fach: </label>
-            <input type="text" th:field="*{subject}">
+                <label>Fach</label>
+                <input class="form-control" placeholder="Deutsch" type="text" th:field="*{subject}">
 
-            <input type="submit" value="anlegen">
-            <p th:if="#{fields.hasErrors('className')}" th:errors="*{className}"></p>
-        </form>
+                <input class="mt-3 btn bg-dark text-white" type="submit" value="anlegen">
+                <p th:if="#{fields.hasErrors('className')}" th:errors="*{className}"></p>
+            </form>
+        </div>
     </div>
 </div>
 </body>
@@ -112,6 +116,7 @@
             let inputSubjectName = changeTextToInput(heading2);
 
             containerElement.querySelector(".hiddenButton").style.display = "block";
+            containerElement.querySelector("button").innerText = "abbrechen";
         }
     }
 
@@ -124,9 +129,11 @@
     }
 
     function openNewSchoolClassWindow(buttonElement) {
-        toggle(document.querySelector('#newSchoolClass'));
+        let newSchoolClassContainer = document.querySelector("#newSchoolClass");
+        toggle(newSchoolClassContainer);
+        newSchoolClassContainer.scrollIntoView();
 
-        let newString = "neue Klasse anlegen";
+        let newString = "+ Neue anlegen";
 
         if(buttonElement.innerHTML == newString) {
             buttonElement.innerHTML = "ausblenden";

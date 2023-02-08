@@ -123,6 +123,9 @@ button.hiddenButton {
     display: none;
 }
 
+.classHeadings {
+    font-weight : bold;
+}
 
 
 
