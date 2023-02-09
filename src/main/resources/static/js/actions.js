@@ -109,7 +109,6 @@ function toggle(elem) {
 function cleanUpUrl(url) {
 console.log(url);
     if(url.endsWith("/")) {
-        console.log(url.substring(0,url.length-1));
         return url.substring(0,url.length-1);
     }
     return url;

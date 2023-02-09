@@ -33,7 +33,9 @@
                     </div>
                     <div>
                         <button class="btn btn-sm bg-dark text-white" onclick="enableSchoolClassEditing(this.parentElement.parentElement)">editieren</button>
-                        <button class="mt-2 hiddenButton btn btn-sm bg-dark text-white" onclick="updateSchoolClassData(this.parentElement.parentElement)">speichern</button>
+                        <button class="mt-2 hiddenButton btn btn-sm bg-dark text-white" onclick="updateSchoolClassData(this.parentElement.parentElement)">
+                            &#128190;</button>
+                        <button class="mt-2 hiddenButton btn btn-sm bg-danger text-white" onclick="deleteClass(this.parentElement.parentElement)">löschen</button>
                     </div>
 
                 </div>
@@ -42,23 +44,24 @@
             </div>
         </th:block>
 
-    </div>
+        <div class="mx-auto row w-50" id="newSchoolClass">
+            <div class="w-100 col-sm-4 my-2 p-3 bg-secondary border border-dark rounded d-flex justify-content-between align-items-end">
+                <form action="#" method="POST" th:object="${newSchoolClass}">
 
-    <div id="newSchoolClass"class="mx-auto row w-50">
-        <div class="w-100 col-sm-4 my-2 p-3 bg-secondary border border-dark rounded d-flex justify-content-between align-items-end">
-            <form action="#" method="POST" th:object="${newSchoolClass}">
+                    <label>Name</label>
+                    <input type="text" placeholder="Klasse 6c" class="form-control" th:field="*{className}"><br>
 
-                <label>Name</label>
-                <input type="text" placeholder="Klasse 6c" class="form-control" th:field="*{className}"><br>
+                    <label>Fach</label>
+                    <input class="form-control" placeholder="Deutsch" type="text" th:field="*{subject}">
 
-                <label>Fach</label>
-                <input class="form-control" placeholder="Deutsch" type="text" th:field="*{subject}">
-
-                <input class="mt-3 btn bg-dark text-white" type="submit" value="anlegen">
-                <p th:if="#{fields.hasErrors('className')}" th:errors="*{className}"></p>
-            </form>
+                    <input class="mt-3 btn bg-dark text-white" type="submit" value="anlegen">
+                    <p th:if="#{fields.hasErrors('className')}" th:errors="*{className}"></p>
+                </form>
+            </div>
         </div>
+
     </div>
+
 </div>
 </body>
 
@@ -115,7 +118,11 @@
             let inputClassName = changeTextToInput(heading1);
             let inputSubjectName = changeTextToInput(heading2);
 
-            containerElement.querySelector(".hiddenButton").style.display = "block";
+            const hiddenButtons = containerElement.querySelectorAll(".hiddenButton");
+            hiddenButtons.forEach((hiddenbutton) => {
+                toggle(hiddenbutton);
+            });
+
             containerElement.querySelector("button").innerText = "abbrechen";
         }
     }
@@ -124,7 +131,7 @@
         const hrefTag = headingElement.parentElement;
         hrefTag.removeAttribute("href");
         const h1text = headingElement.outerText;
-        headingElement.innerHTML = '<input class="form-control" type="text">';
+        headingElement.innerHTML = '<input class="form-control col-4" type="text">';
         headingElement.querySelector("input").value = h1text;
     }
 
@@ -160,7 +167,23 @@
         }
     }
 
-
+    async function deleteClass(containerElement) {
+        if (confirm("Achtung: Wirklich die ganze Klasse löschen?") == true) {
+            let url = cleanUpUrl(window.location.href);
+            let queryString = url + "/del?id=" + containerElement.dataset.id;
+            const response = await fetch(queryString, {
+                method : "DELETE",
+                headers : {
+                    "Content-Type" : "application/json"
+                }
+            });
+            if(!response.ok) {
+                throw response;
+            } else {
+               location.reload();
+            }
+        }
+    }
 
 </script>
 </html>
