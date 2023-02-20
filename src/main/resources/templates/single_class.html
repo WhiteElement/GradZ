@@ -49,11 +49,11 @@
                    <div class="form-group row">
                         <div class="col">
                             <label for="">Klasse:</label>
-                            <input type="text" class="className form-control" id="className" onchange="updateSchoolClass(this)">
+                            <input type="text" class="className form-control" id="className" onchange="updateSchoolClassOnSingleView()">
                         </div>
                        <div class="col">
                             <label for="">Fach:</label>
-                            <input type="text" class="classSubject form-control" id="classSubject" onchange="updateSchoolClass(this)">
+                            <input type="text" class="classSubject form-control" id="classSubject" onchange="updateSchoolClassOnSingleView()">
                        </div>
                    </div>
                 </div>
@@ -81,8 +81,6 @@
                         <input class="btn btn-sm btn-primary" type="submit" value="anlegen">
                     </div>
                     </div>
-
-
                 </form>
             </div>
         </div>
@@ -188,8 +186,6 @@
                 </tr>
             </tbody>
         </table>
-
-<!--        <span id="weightingswarning"> - : fehlende Gewichtung / fehlende Noten</span>-->
     </section>
 </div>
 <script>
@@ -210,6 +206,37 @@ $("th.clickable").hover(function() {
     $(this).closest("tr").next().children().eq(i).removeClass("coloredHeader");
     $(this).closest("tr").prev().children().eq(i).removeClass("coloredHeader");
 });
+
+function openNewStudentWindow() {
+    const elems = [document.querySelector("td #firstName"), document.querySelector("td #lastName")] ;
+
+    elems.forEach(elem => {
+        if(elem.style.display == "table-cell") {
+            elem.style.display = 'none';
+        } else {
+            elem.style.display = 'table-cell';
+        }
+        elem.value = "";
+    });
+
+    toggle(document.querySelector("td #createbutton"));
+}
+
+function createNewStudent() {
+    var StudentFormData = {
+        firstName : $("td #firstName").val(),
+        lastName : $("td #lastName").val()
+    }
+
+    $.ajax({
+        type : "POST",
+        url : window.location.href + "/newstudent",
+        data : StudentFormData
+    })
+    .done(function() {
+            location.reload();
+    });
+}
 </script>
 </body>
 </html>

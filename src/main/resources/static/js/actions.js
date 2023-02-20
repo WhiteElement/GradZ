@@ -1,26 +1,26 @@
 //index
 
-//async function updateSchoolClass(inputelem) {
-//    let url = window.location.href;
-//    var SchoolClassFormData = {
-//        id : parseInt(inputelem.parentElement.dataset.id),
-//        className : inputelem.parentElement.querySelector(".className").value,
-//        subject : inputelem.parentElement.querySelector(".classSubject").value
-//    };
-//
-//    const response = await fetch("/updateSchoolClass", {
-//        method : "POST",
-//        headers : {
-//            "Content-Type" : "application/json"
-//        },
-//        body : JSON.stringify(SchoolClassFormData)
-//    });
-//
-//    if(!response.ok) throw response;
-//    if(response.ok) {
-//        window.location.replace(url);
-//    }
-//}
+async function updateSchoolClassOnSingleView() {
+    let url = window.location.href;
+    var SchoolClassFormData = {
+        id : parseInt(document.querySelector('#editSchoolClass').dataset.id),
+        className : document.querySelector("#className").value,
+        subject : document.querySelector("#classSubject").value
+    };
+
+    const response = await fetch("/updateSchoolClass", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(SchoolClassFormData)
+    });
+
+    if(!response.ok) throw response;
+    if(response.ok) {
+        window.location.replace(url);
+    }
+}
 
 
 
@@ -43,37 +43,6 @@ function openSchoolClassEdit() {
         $("#editSchoolClass #classSubject").val($("h1").data('subject'));
     }
 
-}
-
-function openNewStudentWindow() {
-    const elems = [document.querySelector("td #firstName"), document.querySelector("td #lastName")] ;
-
-    elems.forEach(elem => {
-        if(elem.style.display == "table-cell") {
-            elem.style.display = 'none';
-        } else {
-            elem.style.display = 'table-cell';
-        }
-        elem.value = "";
-    });
-
-    toggle(document.querySelector("td #createbutton"));
-}
-
-function createNewStudent() {
-    var StudentFormData = {
-        firstName : $("td #firstName").val(),
-        lastName : $("td #lastName").val()
-    }
-
-    $.ajax({
-        type : "POST",
-        url : window.location.href + "/newstudent",
-        data : StudentFormData
-    })
-    .done(function() {
-            location.reload();
-    });
 }
 
 function showHelperContent() {
@@ -107,7 +76,6 @@ function toggle(elem) {
 
 //allgemein
 function cleanUpUrl(url) {
-console.log(url);
     if(url.endsWith("/")) {
         return url.substring(0,url.length-1);
     }
