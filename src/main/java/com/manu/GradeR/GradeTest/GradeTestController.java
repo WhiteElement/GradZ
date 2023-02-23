@@ -58,12 +58,14 @@ public class GradeTestController {
         studentGradeDaoWrapper.setStudentGradeDaoList(studentService.getStudentsWithGradesFromSpecificGradeTest(gradetestid,schoolclassid));
         model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
         model.addAttribute("currentGradeTest", gradeTest);
+        model.addAttribute("currentClass", schoolClassService.findById(schoolclassid));
         return "grade_test";
     }
 
     @PostMapping("/schoolclasses/{schoolclassid}/{gradetestid}")
     public String updateGradesInGradeTest(StudentGradeDaoWrapper studentGradeDaoWrapper, Model model,
-                                          @PathVariable Long gradetestid) {
+                                          @PathVariable Long gradetestid,
+                                          @PathVariable Long schoolclassid) {
 
         List<StudentGradeDao> studentGradeDaos = studentGradeDaoWrapper.getStudentGradeDaoList();
 
@@ -72,6 +74,8 @@ public class GradeTestController {
 
         model.addAttribute("currentGradeTest", gradeTest);
         model.addAttribute("studentDaosWrapper", studentGradeDaoWrapper);
+        model.addAttribute("currentClass", schoolClassService.findById(schoolclassid));
+
         return "grade_test";
     }
 
