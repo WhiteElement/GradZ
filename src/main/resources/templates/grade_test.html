@@ -30,7 +30,7 @@
                     <input type="text" id="description" onchange="updateClassInfo()">
                 </div>
             </div>
-            <div class="justify-content-center">
+            <div class="justify-content-center d-flex flex-column">
                 <table class="mx-auto table table-striped table-sm table-hover w-50">
                     <thead>
                     <th>#</th>
@@ -40,7 +40,7 @@
                     </thead>
 
                     <tbody>
-                    <form method="POST" th:object="${studentDaosWrapper}">
+                    <form method="POST" id="gradeform" th:object="${studentDaosWrapper}">
 
                         <tr th:each="student, iterStat : *{StudentGradeDaoList}">
                             <td th:text="${iterStat.count}"></td>
@@ -53,16 +53,12 @@
                             <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].firstName}"></td>
                             <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].lastName}"></td>
                         </tr>
-
-                        <input type="submit" value="Änderungen speichern">
                     </form>
 
                     </tbody>
                 </table>
+                <input style="max-width:300px" class="mx-auto btn btn-primary" type="submit" form="gradeform" value="Änderungen speichern">
             </div>
-        </section>
-        <section class="content bg-white border p-5">
-
         </section>
     </div>
 
