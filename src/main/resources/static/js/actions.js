@@ -1,59 +1,5 @@
-//index
-
-async function updateSchoolClassOnSingleView() {
-    let url = window.location.href;
-    var SchoolClassFormData = {
-        id : parseInt(document.querySelector('#editSchoolClass').dataset.id),
-        className : document.querySelector("#className").value,
-        subject : document.querySelector("#classSubject").value
-    };
-
-    const response = await fetch("/updateSchoolClass", {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json"
-        },
-        body : JSON.stringify(SchoolClassFormData)
-    });
-
-    if(!response.ok) throw response;
-    if(response.ok) {
-        window.location.replace(url);
-    }
-}
-
-
-
 function closeAll() {
     $("#editSchoolClass").hide();
-}
-
-function openSchoolClassEdit() {
-    if($("#helpercontent").is(":visible")) {
-        $("#helpercontent").toggle();
-    }
-
-    if($("#editSchoolClass").is(":visible")) {
-        $("#editSchoolClass").toggle();
-    } else {
-        closeAll();
-        $("#editSchoolClass").show();
-
-        $("#editSchoolClass #className").val($("h1").data('classname'));
-        $("#editSchoolClass #classSubject").val($("h1").data('subject'));
-    }
-
-}
-
-function showHelperContent() {
-    if($("#editSchoolClass").is(":visible")) {
-        $("#editSchoolClass").toggle();
-    }
-    $("#helpercontent").toggle();
-}
-
-function openGradeTest(gradeTestId) {
-    window.location.replace(window.location.href + '/' + gradeTestId);
 }
 
 function goBackLevels(slashesToRemove) {
@@ -74,7 +20,6 @@ function toggle(elem) {
     }
 }
 
-//allgemein
 function cleanUpUrl(url) {
     if(url.endsWith("/")) {
         return url.substring(0,url.length-1);

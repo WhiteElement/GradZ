@@ -44,7 +44,7 @@ Was muss gemacht werden?
     -Alle Funktionen durch auf der Page
     -gradeTEst page machen
     -alle Backend Files durch und refactoren bzw nach unnötigen Dingen durchstöbern
--alle Frontend Files durch und vor allem schauen, ob man js files mergen muss oder nicht
+    -alle Frontend Files durch und vor allem schauen, ob man js files mergen muss oder nicht
 -log out button (authentication funktionalität)
 -readme schreiben
 
