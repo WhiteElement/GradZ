@@ -23,7 +23,6 @@ public class StudentGradeDaoService {
 
     public void updateStudentsGradeFromDao(StudentGradeDao dao, Long gradeTestId) {
 
-//        if(dao.getGrade() != null) {
             Student student = studentRepository.findById(dao.getId()).get();
             Grade grade = (Grade) gradeRepository.getGradeFromStudentInGradeTest(student, gradeTestId).orElseGet(() -> new Grade());
             GradeTest gradeTest = gradeTestRepository.findById(gradeTestId).get();
@@ -33,6 +32,5 @@ public class StudentGradeDaoService {
             grade.setGrade(dao.getGrade());
 
             gradeRepository.save(grade);
-//        }
     }
 }

@@ -74,7 +74,6 @@ public class StudentService {
             Float gradeSum = 0f;
             boolean hasEmptyGrades = false;
 
-            //order by id?
             List<Grade> grades = gradeRepository.getAllGradesFromStudentByType(student.getId(), type);
 
             if(!studentHasGrades(grades)) {

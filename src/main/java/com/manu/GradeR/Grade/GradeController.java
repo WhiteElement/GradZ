@@ -25,5 +25,4 @@ public class GradeController {
         return ResponseEntity.ok().build();
     }
 
-
 }

@@ -1,8 +1,6 @@
 package com.manu.GradeR.Student;
 
 import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import jakarta.persistence.*;
 

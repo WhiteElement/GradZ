@@ -1,6 +1,5 @@
 package com.manu.GradeR.Grade;
 
-import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.Student.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
