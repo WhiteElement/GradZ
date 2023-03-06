@@ -1,0 +1,19 @@
+<div class="content-wrapper">
+
+  <header>
+    <button class="btn btn-primary" onclick="window.location.replace('/')">&#8592 zurück</button>
+    <h1 style="display:inline" th:data-id="${currentClass.Id}" th:data-classname="${currentClass.className}" th:data-subject="${currentClass.subject}" th:text="${currentClass.className} + ' - ' + ${currentClass.subject}"></h1>
+    <button style="float:right" class="btn btn-danger" onclick="alert('nicht belegt');">Logout</button>
+  </header>
+</div>
+<nav class="navbar navbar-expand bg-dark">
+  <ul class="nav">
+    <li class="nav-item">
+      <a th:href="'/schoolclasses/' + ${currentClass.Id}" class="nav-link active text-white">Übersicht</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active text-white" th:href="'/schoolclasses/' + ${currentClass.Id} + '/students'">Schüler</a></li>
+    <li class="nav-item">
+      <a class="nav-link active text-white" th:href="'/schoolclasses/' + ${currentClass.Id} + '/weightings'">Gewichtungen</a></li>
+  </ul>
+</nav>

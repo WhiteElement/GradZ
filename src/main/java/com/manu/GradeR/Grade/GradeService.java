@@ -1,7 +1,6 @@
 package com.manu.GradeR.Grade;
 
 import com.manu.GradeR.GradeTest.GradeTestType;
-import com.manu.GradeR.Student.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +18,11 @@ public class GradeService {
         return gradeRepository.getAllGradesFromStudentByType(studentid, type);
     }
 
+    public void save(Grade grade) {
+        gradeRepository.save(grade);
+    }
+
+    public Grade getGradeByStudentIdAndGradeTestId(Long studentid, Long gradetestid) {
+        return gradeRepository.getGradeByStudentIdAndGradeTestId(studentid, gradetestid);
+    }
 }

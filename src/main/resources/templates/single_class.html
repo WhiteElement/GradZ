@@ -2,78 +2,94 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" >
-    <title th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></title>
+    <title th:text="${currentClass.className} + ' - ' + ${currentClass.subject}"></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script th:src="@{/js/actions.js}"></script>
     <link th:href="@{/css/styles.css}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
 </head>
-<body>
-    <section>
-        <button onclick="goBackLevels(2)">zurück</button>
-        <h1 th:data-id="${currentSchoolClass.Id}" th:data-classname="${currentSchoolClass.className}" th:data-subject="${currentSchoolClass.subject}" th:text="${currentSchoolClass.className} + ' - ' + ${currentSchoolClass.subject}"></h1>
-        <button onclick="openSchoolClassEdit()">Name / Fach ändern</button>
-        <div id="editSchoolClass">
-            <label for="">Klasse:</label>
-            <input type="text" id="className">
-            <label for="">Fach:</label>
-            <input type="text" id="subject">
-            <button th:onclick="'updateSchoolClass(' + ${currentSchoolClass.Id} + ')'">ändern</button>
+<body class="bg-light">
+
+<div th:replace="~{fragments/navbar}"></div>
+
+<div class="content-wrapper">
+    <section class="content bg-white border">
+        <h3>Allgemeine Informationen</h3>
+        <div id="overview">
+            <div>
+                <span th:text="'Klasse: ' + ${currentClass.className}"></span>   <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
+                <br>
+                <span th:text="'Fach: ' + ${currentClass.subject}"></span>  <a title="ändern" class="smallpencil" onclick="openSchoolClassEdit()">&#9998;</a>
+                <p th:text="'Schüler: ' + ${#lists.size(currentClass.students)}">Schüler: 14</p>
+            </div>
+            <div>
+                <th:block>
+                    <p>
+                        <th:block th:text="'Gewichtung (schriftlich/mündlich): '"></th:block>
+                        <th:block th:text="${currentClass.writtenWeighting} ?: 'x'"></th:block>
+                        <th:block th:text="' : '"></th:block>
+                        <th:block th:text="${currentClass.oralWeighting} ?: 'x'"></th:block>
+                    </p>
+                </th:block>
+                <div id="newgrade">
+                    <div>
+                        <p th:text="'schriftliche Noten: ' + ${#lists.size(writtenGradeTests)}">schriftlich: 2</p>
+                        <p th:text="'mündliche Noten: ' + ${#lists.size(oralGradeTests)}">mündlich: 1</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary" onclick="showHelperContent()">+ Note</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div>
+                <div id="editSchoolClass" th:data-id="${currentClass.Id}">
+                   <div class="form-group row">
+                        <div class="col">
+                            <label for="">Klasse:</label>
+                            <input type="text" class="className form-control" id="className" onchange="updateSchoolClassOnSingleView()">
+                        </div>
+                       <div class="col">
+                            <label for="">Fach:</label>
+                            <input type="text" class="classSubject form-control" id="classSubject" onchange="updateSchoolClassOnSingleView()">
+                       </div>
+                   </div>
+                </div>
+            </div>
+            <div id="helpercontent">
+                <b>Neue Note</b>
+                <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentClass.Id})}" th:object="${newGradeTest}">
+                   <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
+                        <label for="written">schriftlich</label>
+                   </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
+                        <label for="oral">mündlich</label><br>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="text" placeholder="Name" class="form-control form-control-sm" th:field="*{testName}">
+                        </div>
+                        <div class="col-7">
+                            <input type="text" placeholder="Beschreibung" class="form-control form-control-sm" th:field="*{testDescription}">
+                        </div>
+                    <div class="col-1">
+                        <input class="btn btn-sm btn-primary" type="submit" value="anlegen">
+                    </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </section>
-    <section id="overview">
-        <div>
-            <p th:text="'Schüler: ' + ${#lists.size(currentSchoolClass.students)}">Schüler: 14</p>
-            <th:block>
-                <p>
-                    <th:block th:text="'Gewichtung (schriftlich/mündlich): '"></th:block>
-                    <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
-                    <th:block th:text="' : '"></th:block>
-                    <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
-                </p>
-            </th:block>
-            <p>Noten</p>
-            <ul>
-                <p th:text="'schriftlich: ' + ${#lists.size(writtenGradeTests)}">schriftlich: 2</p>
-                <p th:text="'mündlich: ' + ${#lists.size(oralGradeTests)}">mündlich: 1</p>
-            </ul>
 
-        </div>
-        <div>
-            <button onclick="window.location.href=window.location.href + '/students'">Klassenliste anzeigen</button><br/>
-            <button onclick="showHelperContent()">Note anlegen</button><br>
-            <button onclick="showWeightings()">Gewichtung ändern</button>
-        </div>
-        <div id="helpercontent">
-            <h3>Neue Note</h3>
-            <form method="POST" th:action="@{/schoolclasses/{id}/newgradetest(id=${currentSchoolClass.Id})}" th:object="${newGradeTest}">
-                <input type="radio" th:field="*{gradeType}" id="written" name="grade_type" value="WRITTEN">
-                <label for="written">schriftlich</label>
-                <input type="radio" th:field="*{gradeType}" id="oral" name="grade_type" value="ORAL">
-                <label for="oral">mündlich</label><br>
-
-                <label for="">Name:</label>
-                <input type="text" th:field="*{testName}"><br>
-                <label for="">Beschreibung:</label>
-                <input type="text" th:field="*{testDescription}"><br>
-                <input type="submit" value="anlegen">
-            </form>
-        </div>
-    </section>
-
-    <section>
-
-        <button onclick="openNewStudentWindow()">neuer Schüler</button>
-        <div id="newStudent">
-            <label for="">Vorname</label>
-            <input type="text" id="firstName">
-            <label for="">Nachname</label>
-            <input type="text" id="lastName">
-            <button onclick="createNewStudent()">anlegen</button>
-        </div>
-
+    <section class="content bg-white border">
         <table id="main" class="table">
+            <caption>- : fehlende Gewichtung / fehlende Noten</caption>
+            <h3>Übersicht</h3>
             <thead>
                 <tr>
                     <th rowspan="3">#</th>
@@ -107,7 +123,8 @@
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
-                        title="Noten eintragen" th:text="${gradeTest.testName}"></th>
+                        title="Noten eintragen"
+                        th:text="${gradeTest.testName}"></th>
                     <th th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}"
                         th:onclick="'openGradeTest(' + ${gradeTest.Id} + ')'" class="clickable" th:data-id="${gradeTest.Id}"
                         title="Noten eintragen" th:text="${gradeTest.testName}"></th>
@@ -116,13 +133,12 @@
                     <th:block>
                         <th rowspan="2">
                             <th:block th:text="'Gesamt ('"></th:block>
-                            <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="${currentClass.writtenWeighting} ?: 'x'"></th:block>
                             <th:block th:text="' : '"></th:block>
-                            <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'x'"></th:block>
+                            <th:block th:text="${currentClass.oralWeighting} ?: 'x'"></th:block>
                             <th:block th:text="')'"></th:block>
                         </th>
                     </th:block>
-<!--                    <th rowspan="2" th:text="'Gesamt (' + ${currentSchoolClass.writtenWeighting}">Gesamt</th>-->
                 </tr>
                 <tr>
                     <th th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}"
@@ -140,16 +156,38 @@
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${student.firstName}"></td>
                     <td th:text="${student.lastName}"></td>
-                    <td class="grade" th:each="grade : ${student.grades}" th:text="${grade.Grade}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')}"></td>
-                    <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')}"></td>
+                    <td class="grade" th:each="grade : ${student.writtenGrades}" th:text="${grade.Grade}"></td>
+                    <td class="grade" th:each="grade : ${student.oralGrades}" th:text="${grade.Grade}"></td>
+                    <td th:text="${#numbers.formatDecimal(student.writtenAverage,1,2,'COMMA')} ?: '-'"></td>
+                    <td th:text="${#numbers.formatDecimal(student.oralAverage,1,2,'COMMA')} ?: '-'"></td>
+                    <td th:text="${#numbers.formatDecimal(student.totalAverage,1,2,'COMMA')} ?: '-'"></td>
+                </tr>
+                <tr>
+                    <td><button class="btn btn-sm btn-secondary" id="plusbutton" onclick="openNewStudentWindow()">+</button></td>
+                    <td class="input"><input type="text" id="firstName"></td>
+                    <td class="input"><input type="text" id="lastName"></td>
+                    <td><button class="btn btn-secondary" id="createbutton" onclick="createNewStudent()">anlegen</button></td>
+
+                </tr>
+                <tr>
+                    <td class="emptycell" colspan="3"></td>
+                    <th:block th:unless="${#lists.isEmpty(writtenGradeTests)}" th:each="gradeTest : ${writtenGradeTests}">
+                        <th:block th:switch="${#arrays.contains(gradeTest.grades.![grade], null)}">
+                            <td th:case="true" class="avgdisplay" th:text="'&#8709; -'"></td>
+                            <td th:case="false" class="avgdisplay" th:text="'&#8709; ' + ${#numbers.formatDecimal(#aggregates.avg(gradeTest.grades.![grade]),1,2,'COMMA')}"></td>
+                        </th:block>
+                    </th:block>
+                    <th:block th:unless="${#lists.isEmpty(oralGradeTests)}" th:each="gradeTest : ${oralGradeTests}">
+                        <th:block th:switch="${#arrays.contains(gradeTest.grades.![grade], null)}">
+                            <td th:case="true" class="avgdisplay" th:text="'&#8709; -'"></td>
+                            <td th:case="false" class="avgdisplay" th:text="'&#8709; ' + ${#numbers.formatDecimal(#aggregates.avg(gradeTest.grades.![grade]),1,2,'COMMA')}"></td>
+                        </th:block>
+                    </th:block>
                 </tr>
             </tbody>
         </table>
-
     </section>
-
+</div>
 <script>
 $("th.clickable").hover(function() {
     $(this).addClass("coloredHeader");
@@ -168,6 +206,87 @@ $("th.clickable").hover(function() {
     $(this).closest("tr").next().children().eq(i).removeClass("coloredHeader");
     $(this).closest("tr").prev().children().eq(i).removeClass("coloredHeader");
 });
+
+function openNewStudentWindow() {
+    const elems = [document.querySelector("td #firstName"), document.querySelector("td #lastName")] ;
+
+    elems.forEach(elem => {
+        if(elem.style.display == "table-cell") {
+            elem.style.display = 'none';
+        } else {
+            elem.style.display = 'table-cell';
+        }
+        elem.value = "";
+    });
+
+    toggle(document.querySelector("td #createbutton"));
+}
+
+function createNewStudent() {
+    var StudentFormData = {
+        firstName : $("td #firstName").val(),
+        lastName : $("td #lastName").val()
+    }
+
+    $.ajax({
+        type : "POST",
+        url : window.location.href + "/newstudent",
+        data : StudentFormData
+    })
+    .done(function() {
+            location.reload();
+    });
+}
+
+async function updateSchoolClassOnSingleView() {
+    let url = window.location.href;
+    var SchoolClassFormData = {
+        id : parseInt(document.querySelector('#editSchoolClass').dataset.id),
+        className : document.querySelector("#className").value,
+        subject : document.querySelector("#classSubject").value
+    };
+
+    const response = await fetch("/updateSchoolClass", {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify(SchoolClassFormData)
+    });
+
+    if(!response.ok) throw response;
+    if(response.ok) {
+        window.location.replace(url);
+    }
+}
+
+function openSchoolClassEdit() {
+    if($("#helpercontent").is(":visible")) {
+        $("#helpercontent").toggle();
+    }
+
+    if($("#editSchoolClass").is(":visible")) {
+        $("#editSchoolClass").toggle();
+    } else {
+        closeAll();
+        $("#editSchoolClass").show();
+
+        $("#editSchoolClass #className").val($("h1").data('classname'));
+        $("#editSchoolClass #classSubject").val($("h1").data('subject'));
+    }
+
+}
+
+function showHelperContent() {
+    if($("#editSchoolClass").is(":visible")) {
+        $("#editSchoolClass").toggle();
+    }
+    $("#helpercontent").toggle();
+}
+
+function openGradeTest(gradeTestId) {
+    window.location.replace(window.location.href + '/' + gradeTestId);
+}
 </script>
 </body>
 </html>

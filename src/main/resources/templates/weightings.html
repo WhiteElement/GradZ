@@ -9,122 +9,98 @@
 
     <title>Gewichtung</title>
 </head>
-<body>
-<button onclick="goBackLevels(1)">Zürück</button>
-<h1>Gewichtungen</h1>
+<body class="bg-light">
+    <div th:replace="~{fragments/navbar}"></div>
 
-<div>
-    <p>
+    <div class="content-wrapper">
+        <section class="bg-white border p-3">
+            <h3><b>Gewichtung </b><span class="text-muted">Schriftlich / Mündlich</span></h3>
 
-        <th:block th:text="'Schriftlich '"></th:block>
-        <th:block th:text="${currentSchoolClass.writtenWeighting} ?: 'nicht festgelegt'"></th:block>
-        <th:block th:text="' : Mündlich '"></th:block>
-        <th:block th:text="${currentSchoolClass.oralWeighting} ?: 'nicht festgelegt'"></th:block>
-    </p>
-    <button onclick="toggleWeightingsTable()">Gewichtung ändern</button>
-    <div id="weightingstable">
-        <table>
-            <tr>
-                <th>Schriftlich</th>
-                <th>&nbsp;</th>
-                <th>Mündlich</th>
-            </tr>
-            <tr>
-                <td><input type="number" id="writtenWeightingSchoolClass" th:value="${currentSchoolClass.writtenWeighting} ?: ''"></td>
-                <td> : </td>
-                <td><input type="number" id="oralWeightingSchoolClass" th:value="${currentSchoolClass.oralWeighting} ?: ''"></td>
-            </tr>
-        </table>
-        <button onclick="updateWeightingsForSchoolClass()">ändern</button>
+            <div class="input-group input-group-lg d-flex justify-content-center">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Schriftlich : Mündlich</span>
+                </div>
+                <div class="col-1">
+                    <input type="number" onchange="updateWeightingsForSchoolClass()" class="form-control" id="writtenWeightingSchoolClass" th:value="${currentClass.writtenWeighting} ?: ''">
+
+                </div>
+                <div class="col-1">
+                <input type="number" onchange="updateWeightingsForSchoolClass()" class="form-control" id="oralWeightingSchoolClass" th:value="${currentClass.oralWeighting} ?: ''">
+                </div>
+            </div>
+
+    </section>
+
+    <div class="bg-white border p-3">
+        <section>
+            <h3><b>Gewichtung </b><span class="text-muted">Einzelner Noten </span></h3>
+            <div class="d-flex justify-content-around pt-3">
+               <div>
+                    <h4>Schriftlich</h4>
+
+                    <th:block th:each="gradeTest : ${writtenGradeTests}">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" th:text="${gradeTest.testName}"></span>
+                            </div>
+                            <div class="col-4">
+                                <input type="number" th:id="${gradeTest.Id}" class="written weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="sameWeightingWritten" value="sameWeightingWritten">
+                            </div>
+                        </div>
+                        <label for="">alle schriftlichen Noten gleich werten?</label>
+
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Mündlich</h4>
+
+                    <th:block th:each="gradeTest : ${oralGradeTests}">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" th:text="${gradeTest.testName}"></span>
+                            </div>
+                            <div class="col-4">
+                                <input type="number" th:id="${gradeTest.Id}" class="oral weightingnumber form-control" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}">
+                            </div>
+                        </div>
+                    </th:block>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="checkbox" id="sameWeightingOral" value="sameWeightingOral">
+                            </div>
+                        </div>
+                        <label for="">alle schriftlichen Noten gleich werten?</label>
+                </div>
+            </div>
+
+
+
+        </section>
+
+
     </div>
-</div>
-
-
-<h3>Schriftlich</h3>
-
-<input type="checkbox" id="sameWeightingWritten" value="sameWeightingWritten">
-<label for="">alle schriftlichen Noten gleich werten?</label>
-<table id="written">
-    <thead>
-        <tr>
-            <th>&nbsp;</th>
-            <th>Anteile (x:x)</th>
-            <th style="min-width:30px">&nbsp;</th>
-            <th>Beispielnoten</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <th:block th:each="gradeTest : ${writtenGradeTests}">
-        <tr>
-            <td th:text="${gradeTest.testName}"></td>
-            <td rowspan="2"><input type="number" th:id="${gradeTest.Id}" class="weightingnumber" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}"></td>
-            <td></td>
-            <td rowspan="2"><input type="number" class="examplegradeswritten" value="1.5"></td>
-        </tr>
-
-        <tr>
-            <td th:text="${gradeTest.testDescription}"></td>
-        </tr>
-        <tr><td colspan="4">&nbsp;</td></tr>
-        </th:block>
-
-        <tr style="border-top: 1px black dotted">
-            <td colspan="3">&nbsp;</td>
-            <td id="exampleaveragewritten">Durchschnitt 1,5</td>
-        </tr>
-
-    </tbody>
-
-</table>
-
-<h3>Mündlich</h3>
-<input type="checkbox" id="sameWeightingOral" value="sameWeightingOral">
-<label for="">alle mündlichen Noten gleich werten?</label>
-<table id="oral">
-    <thead>
-    <tr>
-        <th>&nbsp;</th>
-        <th>Anteile (x:x)</th>
-        <th style="min-width:30px">&nbsp;</th>
-        <th>Beispielnoten</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <th:block th:each="gradeTest : ${oralGradeTests}">
-        <tr>
-            <td th:text="${gradeTest.testName}"></td>
-            <td rowspan="2"><input type="number" th:id="${gradeTest.Id}" class="weightingnumber" th:name="${gradeTest.testName}" th:value="${gradeTest.weighting}"></td>
-            <td></td>
-            <td rowspan="2"><input type="number" class="examplegradesoral" value="1.5"></td>
-        </tr>
-
-        <tr>
-            <td th:text="${gradeTest.testDescription}"></td>
-        </tr>
-        <tr><td colspan="4">&nbsp;</td></tr>
-    </th:block>
-
-    <tr style="border-top: 1px black dotted">
-        <td colspan="3">&nbsp;</td>
-        <td id="exampleaverageoral">Durchschnitt 1,5</td>
-    </tr>
-
-    </tbody>
-
-</table>
 </body>
 
 <script>
     $("#sameWeightingWritten").change(function() {
         if( $(this).is(":checked") ) {
-            $("table#written .weightingnumber").each(function() {
+            $(".written.weightingnumber.form-control").each(function() {
                 $(this).val('1');
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
         } else {
-            $("table#written .weightingnumber").each(function() {
+            $(".written.weightingnumber.form-control").each(function() {
                 $(this).val("");
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
@@ -133,12 +109,12 @@
 
         $("#sameWeightingOral").change(function() {
         if( $(this).is(":checked") ) {
-            $("table#oral .weightingnumber").each(function() {
+            $(".oral.weightingnumber.form-control").each(function() {
                 $(this).val('1');
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
         } else {
-            $("table#oral .weightingnumber").each(function() {
+            $(".oral.weightingnumber.form-control").each(function() {
                 $(this).val("");
                 sendGradeTestRatios($(this).attr('id'),$(this).val());
             })
@@ -213,9 +189,6 @@
             $(exampleaverageIdTag).html('Durchschnitt: ' + (examplegradeSum / exampleGrades.length));
         }
     }
-function toggleWeightingsTable() {
-    $("#weightingstable").toggle();
-}
 
 async function updateWeightingsForSchoolClass(){
     var schoolClassWeightings = {

@@ -9,41 +9,112 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
 </head>
-<body>
-<button onclick="goBackLevels(1)">zurück</button>
+<body class="bg-light">
 
-<h1 th:text="${currentGradeTest.testName}"></h1>
-<h2 th:text="${currentGradeTest.testDescription}"></h2>
-<p th:text="${currentGradeTest.schoolClass.className} + ' - ' + ${currentGradeTest.schoolClass.subject}"></p>
+    <div th:replace="~{fragments/navbar}"></div>
 
-<table>
-    <thead>
-        <th>#</th>
-        <th>Vorname</th>
-        <th>Nachname</th>
-        <th>Note</th>
-    </thead>
+    <div class="content-wrapper">
+        <section class="content bg-white border p-5">
+            <div class="d-flex">
+                <div>
+                    <h1 style="display:inline" id="gradeTestName" th:data-id="${currentGradeTest.Id}" th:text="${currentGradeTest.testName}"></h1> <a title="ändern" class="smallpencil" onclick="toggleClassEdit(this)">&#9998;</a>
+                    <br>
+                    <h2 style="display:inline" id="gradeTestDescription" th:text="${currentGradeTest.testDescription}"></h2> <a title="ändern" class="smallpencil" onclick="toggleClassEdit(this)">&#9998;</a>
+                    <p th:text="${currentGradeTest.schoolClass.className} + ' - ' + ${currentGradeTest.schoolClass.subject}"></p>
+                    <button class="btn bg-danger" onclick="deleteGradeTest()">löschen</button>
+                </div>
+                <div id="ClassEdit">
+                    <label for=""></label>
+                    <input type="text" id="name" onchange="updateClassInfo()">
+                    <label for=""></label>
+                    <input type="text" id="description" onchange="updateClassInfo()">
+                </div>
+            </div>
+            <div class="justify-content-center d-flex flex-column">
+                <table class="mx-auto table table-striped table-sm table-hover w-50">
+                    <thead>
+                    <th>#</th>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>Note</th>
+                    </thead>
 
-    <tbody>
-        <form method="POST" th:object="${studentDaosWrapper}">
+                    <tbody>
+                    <form method="POST" id="gradeform" th:object="${studentDaosWrapper}">
 
-            <tr th:each="student, iterStat : *{StudentGradeDaoList}">
-                <td th:text="${iterStat.count}"></td>
-                <td th:text="${student.firstName}"></td>
-                <td th:text="${student.lastName}"</td>
-                <td><input type="text"
-                           th:field="*{StudentGradeDaoList[__${iterStat.index}__].Grade}"></td>
-                <input type="hidden"
-                              th:field="*{StudentGradeDaoList[__${iterStat.index}__].Id}">
-                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].firstName}"></td>
-                <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].lastName}"></td>
-            </tr>
+                        <tr th:each="student, iterStat : *{StudentGradeDaoList}">
+                            <td th:text="${iterStat.count}"></td>
+                            <td th:text="${student.firstName}"></td>
+                            <td th:text="${student.lastName}"></td>
+                            <td><input type="text"
+                                       th:field="*{StudentGradeDaoList[__${iterStat.index}__].Grade}"></td>
+                            <input type="hidden"
+                                   th:field="*{StudentGradeDaoList[__${iterStat.index}__].Id}">
+                            <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].firstName}"></td>
+                            <td> <input type="hidden" th:field="*{StudentGradeDaoList[__${iterStat.index}__].lastName}"></td>
+                        </tr>
+                    </form>
 
-            <input type="submit" value="Änderungen speichern">
-        </form>
-
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+                <input style="max-width:300px" class="mx-auto btn btn-primary" type="submit" form="gradeform" value="Änderungen speichern">
+            </div>
+        </section>
+    </div>
 
 </body>
+
+<script>
+    function removeInput(inputElement) {
+        console.log(inputElement);
+        inputElement.parentElement.innerText = inputElement.value;
+        inputElement.remove();
+    }
+
+    function toggleClassEdit(currentInput) {
+        const thisElem = currentInput.previousElementSibling;
+        const content = thisElem.innerText;
+        thisElem.innerHTML='<input onfocusout="removeInput(this)" onchange="removeInput(this)" type="text">';
+        const addedInput = thisElem.firstChild;
+        addedInput.focus();
+        addedInput.value = '';
+        addedInput.value = content;
+    }
+
+    async function updateClassInfo() {
+
+        var classFormData = {
+            id : parseInt(document.querySelector("#gradeTestName").dataset.id),
+            testName : document.querySelector("#name").value,
+            testDescription : document.querySelector("#description").value
+        };
+
+        await fetch(window.location.href + "/class", {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify(classFormData)
+        });
+
+        document.querySelector("#gradeTestName").innerHTML = classFormData.testName;
+        document.querySelector("#gradeTestDescription").innerHTML = classFormData.testDescription;
+    }
+
+    async function deleteGradeTest() {
+
+        if(confirm("Note wirklich löschen? ACHTUNG: Dadurch gehen alle Noten der Schüler hierfür verloren.") == true) {
+
+            var url = window.location.href;
+            await fetch(url, {
+                method : "DELETE",
+                headers: {
+                'Content-Type': 'application/json'
+                },
+            });
+            goBackLevels(1);
+        }
+    }
+
+</script>
 </html>

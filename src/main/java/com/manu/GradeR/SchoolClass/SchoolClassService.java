@@ -3,6 +3,8 @@ package com.manu.GradeR.SchoolClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SchoolClassService {
 
@@ -17,5 +19,17 @@ public class SchoolClassService {
 
     public void save(SchoolClass schoolClass) {
         schoolClassRepository.save(schoolClass);
+    }
+
+    public List<SchoolClass> findAll() {
+        return schoolClassRepository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        schoolClassRepository.deleteById(id);
+    }
+
+    public SchoolClass findById(Long schoolclassid) {
+        return schoolClassRepository.getReferenceById(schoolclassid);
     }
 }

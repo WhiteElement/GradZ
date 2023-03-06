@@ -1,6 +1,7 @@
 package com.manu.GradeR.Student;
 
 import com.manu.GradeR.Dao.StudentAverageDao;
+import com.manu.GradeR.Dao.StudentGradeDao;
 import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.Grade.GradeRepository;
 import com.manu.GradeR.Grade.GradeService;
@@ -47,7 +48,8 @@ public class StudentService {
             studentAverageDao.setId(student.getId());
             studentAverageDao.setFirstName(student.getFirstName());
             studentAverageDao.setLastName(student.getLastName());
-            studentAverageDao.setGrades(student.getGrades());
+            studentAverageDao.transferAndOrderGrades(gradeService.getAllGradesFromStudentByType(student.getId(), GradeTestType.WRITTEN), GradeTestType.WRITTEN);
+            studentAverageDao.transferAndOrderGrades(gradeService.getAllGradesFromStudentByType(student.getId(), GradeTestType.ORAL), GradeTestType.ORAL);
             studentAverageDaos.add(studentAverageDao);
         }
 
@@ -72,30 +74,49 @@ public class StudentService {
             Float gradeSum = 0f;
             boolean hasEmptyGrades = false;
 
-            for(Grade grade : gradeRepository.getAllGradesFromStudentByType(student.getId(), type)) {
+            List<Grade> grades = gradeRepository.getAllGradesFromStudentByType(student.getId(), type);
 
-                if(grade.getGrade() == null) {
-                    hasEmptyGrades = true;
-                    break;
-                } else {
-                    gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
-                }
-            }
-            if (type == GradeTestType.WRITTEN) {
-                if(hasEmptyGrades) {
+            if(!studentHasGrades(grades)) {
+                if(type == GradeTestType.WRITTEN) {
                     student.setWrittenAverage(null);
                 } else {
-                    student.setWrittenAverage(gradeSum / weightingsTotal);
+                    student.setOralAverage(null);
                 }
             } else {
-                if(hasEmptyGrades) {
-                    student.setOralAverage(null);
-                } else {
-                    student.setOralAverage(gradeSum / weightingsTotal);
+                for(Grade grade : grades) {
+                    if(grade.getGrade() == null) {
+                        hasEmptyGrades = true;
+                        break;
+                    } else {
+                        gradeSum += weightingsmap.get(grade.getGradeTest().getId()) * grade.getGrade();
+                    }
                 }
+
+                if (type == GradeTestType.WRITTEN) {
+                    if(hasEmptyGrades) {
+                        student.setWrittenAverage(null);
+                    } else {
+                        student.setWrittenAverage(gradeSum / weightingsTotal);
+                    }
+                } else {
+                    if(hasEmptyGrades) {
+                        student.setOralAverage(null);
+                    } else {
+                        student.setOralAverage(gradeSum / weightingsTotal);
+                    }
+                }
+                student.setTotalAverage(calculateTotalAverage(student, schoolClass));
             }
-            student.setTotalAverage(calculateTotalAverage(student, schoolClass));
+
+
         }
+    }
+
+    private boolean studentHasGrades(List<Grade> grades) {
+        if(grades.size() == 0) {
+            return false;
+        }
+        return true;
     }
 
     private Float calculateTotalAverage(StudentAverageDao student, SchoolClass schoolClass) {
@@ -110,5 +131,21 @@ public class StudentService {
         return ((student.getWrittenAverage() * schoolClass.getWrittenWeighting()) +
                 (student.getOralAverage() * schoolClass.getOralWeighting())) /
                 (schoolClass.getWrittenWeighting() + schoolClass.getOralWeighting());
+    }
+
+    public Student findById(Long id) {
+        return studentRepository.findById(id).get();
+    }
+
+    public void save(Student student) {
+        studentRepository.save(student);
+    }
+
+    public void deleteById(Long studentId) {
+        studentRepository.deleteById(studentId);
+    }
+
+    public List<StudentGradeDao> getStudentsWithGradesFromSpecificGradeTest(Long gradetestid, Long schoolclassid) {
+        return studentRepository.getStudentsWithGradesFromSpecificGradeTest(gradetestid, schoolclassid);
     }
 }

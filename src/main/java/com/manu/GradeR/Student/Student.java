@@ -1,8 +1,6 @@
 package com.manu.GradeR.Student;
 
 import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.SchoolClass.SchoolClass;
 import jakarta.persistence.*;
 
@@ -24,8 +22,12 @@ public class Student {
 
     @OneToMany ( cascade = CascadeType.ALL, mappedBy = "student")
     private List<Grade> grades = new ArrayList<>();
+
+    @Transient
     private Float oralAverage;
+    @Transient
     private Float writtenAverage;
+    @Transient
     private Float totalAverage;
 
     public Student(Long id, String firstName, String lastName) {

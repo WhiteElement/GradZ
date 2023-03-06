@@ -1,6 +1,5 @@
 package com.manu.GradeR.GradeTest;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.manu.GradeR.Grade.Grade;
 import com.manu.GradeR.SchoolClass.SchoolClass;
@@ -29,7 +28,6 @@ public class GradeTest {
     private List<Grade> grades = new ArrayList<>();
 
     @JsonIgnore
-    //TODO JSON Ignores????
     @ManyToOne (fetch = FetchType.LAZY)
     private SchoolClass schoolClass;
 

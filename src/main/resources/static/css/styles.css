@@ -9,7 +9,7 @@
 #overview {
     display : flex;
     justify-content : flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 40px;
 }
 
@@ -44,3 +44,88 @@ section {
     margin: 0;
     padding: 0
 }
+
+#weightingswarning {
+    float : right;
+    font-size : small
+}
+
+
+td.avgdisplay {
+    font-style : italic;
+    border-top: 4px black double;
+    border-bottom : 0;
+}
+
+.emptycell {
+    border-bottom : 0;
+}
+
+#ClassEdit {
+    display: none;
+}
+
+#plusbutton:hover{
+    cursor: pointer;
+}
+
+td #firstName, td #lastName, td #createbutton {
+    display: none;
+}
+
+table#main.table input {
+    max-width: 70px;
+}
+
+.content-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.content {
+    padding: 10px;
+}
+
+nav li {
+    display: inline;
+}
+
+nav li:hover {
+    background-color: black;
+}
+
+nav ul {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.smallpencil {
+    font-size: 0.7em;
+}
+
+.smallpencil:hover {
+    cursor: pointer;
+}
+
+#newgrade {
+    display:flex;
+    align-items: center;
+    gap: 10px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+button.hiddenButton {
+    display: none;
+}
+
+.classHeadings {
+    font-weight : bold;
+}
+
+
+
