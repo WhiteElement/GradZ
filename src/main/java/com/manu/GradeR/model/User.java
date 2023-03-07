@@ -1,25 +1,27 @@
-package com.manu.GradeR.Teacher;
+package com.manu.GradeR.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-public class Teacher {
+@Table(name="users")
+public class User {
 
-    @Id
+    @Id @GeneratedValue
     private Long Id;
     private String username;
     private String password;
-    private String role;
+    private String roles;
 
-    public Teacher(Long id, String username, String password, String role) {
-        Id = id;
+    public User(){}
+
+    public User(String username, String password, String roles) {
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.roles = roles;
     }
-
-    public Teacher() {}
 
     public Long getId() {
         return Id;
@@ -45,11 +47,11 @@ public class Teacher {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }

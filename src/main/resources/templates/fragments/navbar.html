@@ -3,7 +3,7 @@
   <header>
     <button class="btn btn-primary" onclick="window.location.replace('/')">&#8592 zurück</button>
     <h1 style="display:inline" th:data-id="${currentClass.Id}" th:data-classname="${currentClass.className}" th:data-subject="${currentClass.subject}" th:text="${currentClass.className} + ' - ' + ${currentClass.subject}"></h1>
-    <button style="float:right" class="btn btn-danger" onclick="alert('nicht belegt');">Logout</button>
+    <button style="float:right" class="btn btn-danger" onclick="window.location.href='/logout'">Logout</button>
   </header>
 </div>
 <nav class="navbar navbar-expand bg-dark">
