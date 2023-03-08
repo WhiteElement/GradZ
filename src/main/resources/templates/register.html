@@ -10,8 +10,6 @@
             width: 70%;
             margin: 0 auto;
         }
-
-
     </style>
 </head>
 <body class="bg-light">
@@ -20,8 +18,7 @@
 
     <div class="content-wrapper">
         <section class="bg-white border p-3">
-            <form th:action="@{/login}" method="post">
-                <h2>Login</h2>
+                <h2>Registrierung</h2>
                 <div id="form" class="form-group w-25">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" class="form-control">
@@ -29,12 +26,9 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" class="form-control">
 
-                    <input type="submit" id="submitButton" value="einloggen" class="btn mt-2 bg-primary">
-
                 </div>
-
-            </form>
-            <small>noch keinen Account? <a href="/register">Registrieren</a></small>
+            <button id="registerButton" onclick="newUser()" class="btn mt-2 bg-secondary hidden">registrieren</button>
+            <small>zurück zum <a href="/login">Login</a></small>
         </section>
 
     </div>
@@ -64,22 +58,22 @@
 
 <!--    }-->
 
-<!--    async function newUser() {-->
-<!--        const newUserFormData = {-->
-<!--            username : document.querySelector("#username").value,-->
-<!--            password : document.querySelector("#password").value-->
-<!--        }-->
+    async function newUser() {
+        const newUserFormData = {
+            username : document.querySelector("#username").value,
+            password : document.querySelector("#password").value
+        }
 
-<!--        const response =await fetch('/register', {-->
-<!--            method : "post",-->
-<!--            headers : {-->
-<!--                "Content-Type" : "application/json",-->
-<!--            },-->
-<!--            body : JSON.stringify(newUserFormData)-->
-<!--        });-->
-<!--        if(response.ok) {-->
-<!--            window.location.replace('/');-->
-<!--        }-->
-<!--    }-->
+        const response = await fetch('/register', {
+            method : "post",
+            headers : {
+                "Content-Type" : "application/json",
+            },
+            body : JSON.stringify(newUserFormData)
+        });
+        if(response.ok) {
+            window.location.replace('/login');
+        }
+    }
 </script>
 </html>
