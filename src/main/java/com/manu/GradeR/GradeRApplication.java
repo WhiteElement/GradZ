@@ -16,10 +16,10 @@ public class GradeRApplication {
 	}
 
 
-//	@Bean
-//	CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder) {
-//		return args -> {
-//			users.save(new User("test", passwordEncoder.encode("password"), "ROLE_TEACHER"));
-//		};
-//	}
+	@Bean
+	CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder) {
+		return args -> {
+			users.save(new User("test", passwordEncoder.encode("password"), "ROLE_TEACHER"));
+		};
+	}
 }

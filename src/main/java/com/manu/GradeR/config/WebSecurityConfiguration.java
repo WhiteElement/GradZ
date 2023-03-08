@@ -1,6 +1,7 @@
 package com.manu.GradeR.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -28,6 +29,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         .requestMatchers("/**").authenticated()
             )
+
                 .userDetailsService(jpaUserDetailsService)
                 .formLogin()
                     .defaultSuccessUrl("/")
