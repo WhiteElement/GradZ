@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradio - Login</title>
+    <script th:src="@{/js/actions.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        .content-wrapper{
+            width: 70%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div th:replace="~{fragments/navbar_simple}"></div>
+
+    <div class="content-wrapper">
+        <section class="bg-white border p-3">
+                <h2>Registrierung</h2>
+                <div id="form" class="form-group w-25">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="form-control">
+
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control">
+
+                </div>
+            <button id="registerButton" onclick="newUser()" class="btn mt-2 bg-secondary hidden">registrieren</button>
+            <small>zurück zum <a href="/login">Login</a></small>
+        </section>
+
+    </div>
+
+</body>
+
+<script>
+
+
+<!--    function switchLoginAndRegistration() {-->
+<!--        const heading = document.querySelector("h2");-->
+<!--        const small = document.querySelector("small");-->
+<!--        if(form.dataset.registration == "1") {-->
+<!--            heading.innerText="Login";-->
+<!--            document.querySelector("#registerButton").style.display = "none";-->
+<!--            document.querySelector("#submitButton").style.display = "block";-->
+<!--            form.setAttribute("data-registration","0");-->
+<!--            small.innerHTML='noch keinen Account? <a href="#" onclick="switchLoginAndRegistration()">Registrieren</a>'-->
+<!--        } else {-->
+<!--            heading.innerText = "Registrierung";-->
+<!--            document.querySelector("#submitButton").style.display = "none";-->
+<!--            document.querySelector("#registerButton").style.display = "block";-->
+<!--            small.innerHTML='zurück zum <a href="#" onclick="switchLoginAndRegistration()">Login</a>'-->
+<!--            form.setAttribute("data-registration","1");-->
+
+<!--        }-->
+
+<!--    }-->
+
+    async function newUser() {
+        const newUserFormData = {
+            username : document.querySelector("#username").value,
+            password : document.querySelector("#password").value
+        }
+
+        const response = await fetch('/register', {
+            method : "post",
+            headers : {
+                "Content-Type" : "application/json",
+            },
+            body : JSON.stringify(newUserFormData)
+        });
+        if(response.ok) {
+            window.location.replace('/login');
+        }
+    }
+</script>
+</html>

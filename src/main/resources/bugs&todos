@@ -47,6 +47,7 @@ Was muss gemacht werden?
     -alle Frontend Files durch und vor allem schauen, ob man js files mergen muss oder nicht
 -log out button (authentication funktionalität)
 -readme schreiben
+-persönliche sachen entfernen aus den files (database, filenames, "junk files")
 
 bugs
 -----
