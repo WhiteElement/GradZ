@@ -15,9 +15,15 @@
 
     <div class="mx-auto w-50 bg-white border p-3">
         <div id="availableSchoolClasses" class="col container">
-            <div>
-                <h2>deine Klassen</h2>
-                <button class="btn btn-sm btn-outline-secondary" onclick="openNewSchoolClassWindow(this)">+ Neue anlegen</button>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h2>deine Klassen</h2>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="openNewSchoolClassWindow(this)">+ Neue anlegen</button>
+                </div>
+
+                <div>
+                    <button class="btn bg-danger" onclick="window.location.replace('/logout')">Logout</button>
+                </div>
             </div>
             <th:block th:unless="${allSchoolClasses} == null">
                 <div class="mx-auto row w-50" th:each="SchoolClass : ${allSchoolClasses}">
