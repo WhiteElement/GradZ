@@ -1,11 +1,12 @@
-package com.manu.GradeR.Dao;
+package com.manu.GradeR.service;
 
-import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.Grade.GradeRepository;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.GradeTest.GradeTestRepository;
-import com.manu.GradeR.Student.Student;
-import com.manu.GradeR.Student.StudentRepository;
+import com.manu.GradeR.Dao.StudentGradeDao;
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.repository.GradeRepository;
+import com.manu.GradeR.model.GradeTest;
+import com.manu.GradeR.repository.GradeTestRepository;
+import com.manu.GradeR.model.Student;
+import com.manu.GradeR.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

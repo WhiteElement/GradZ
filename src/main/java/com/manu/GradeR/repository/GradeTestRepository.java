@@ -1,6 +1,8 @@
-package com.manu.GradeR.GradeTest;
+package com.manu.GradeR.repository;
 
-import com.manu.GradeR.SchoolClass.SchoolClass;
+import com.manu.GradeR.model.GradeTest;
+import com.manu.GradeR.model.GradeTestType;
+import com.manu.GradeR.model.SchoolClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

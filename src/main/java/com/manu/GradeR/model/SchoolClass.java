@@ -1,9 +1,6 @@
-package com.manu.GradeR.SchoolClass;
+package com.manu.GradeR.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.GradeTest.GradeTestType;
-import com.manu.GradeR.Student.Student;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +22,9 @@ public class SchoolClass {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "schoolClass")
     private List<Student> students = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     private Float writtenWeighting;
     private Float oralWeighting;
@@ -78,6 +78,14 @@ public class SchoolClass {
         this.subject = subject;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "SchoolClass{" +
@@ -115,6 +123,7 @@ public class SchoolClass {
     public void setOralWeighting(Float oralWeighting) {
         this.oralWeighting = oralWeighting;
     }
+
 }
 
 

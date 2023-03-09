@@ -1,4 +1,4 @@
-package com.manu.GradeR.GradeTest;
+package com.manu.GradeR.model;
 
 public enum GradeTestType {
     WRITTEN,
