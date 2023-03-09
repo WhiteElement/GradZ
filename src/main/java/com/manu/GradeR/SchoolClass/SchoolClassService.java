@@ -1,5 +1,6 @@
 package com.manu.GradeR.SchoolClass;
 
+import com.manu.GradeR.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class SchoolClassService {
 
     public SchoolClass findById(Long schoolclassid) {
         return schoolClassRepository.getReferenceById(schoolclassid);
+    }
+
+    public List<SchoolClass> findAllFromOneTeacher(User user) {
+        return schoolClassRepository.findByUser(user);
     }
 }

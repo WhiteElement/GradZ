@@ -45,7 +45,7 @@ Was muss gemacht werden?
     -gradeTEst page machen
     -alle Backend Files durch und refactoren bzw nach unnötigen Dingen durchstöbern
     -alle Frontend Files durch und vor allem schauen, ob man js files mergen muss oder nicht
--log out button (authentication funktionalität)
+    -log out button (authentication funktionalität)
 -readme schreiben
 -persönliche sachen entfernen aus den files (database, filenames, "junk files")
 

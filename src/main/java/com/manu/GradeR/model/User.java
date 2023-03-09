@@ -1,9 +1,10 @@
 package com.manu.GradeR.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.manu.GradeR.SchoolClass.SchoolClass;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -14,6 +15,9 @@ public class User {
     private String username;
     private String password;
     private String roles;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<SchoolClass> schoolClasses = new ArrayList<>();
 
     public User(){}
 

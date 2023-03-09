@@ -4,14 +4,14 @@ import com.manu.GradeR.GradeTest.GradeTest;
 import com.manu.GradeR.GradeTest.GradeTestService;
 import com.manu.GradeR.GradeTest.GradeTestType;
 import com.manu.GradeR.Student.StudentService;
+import com.manu.GradeR.model.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.*;
 
@@ -27,10 +27,13 @@ public class SchoolClassController {
     @Autowired
     SchoolClassService schoolClassService;
 
-    @GetMapping("/")
-    public String showSchoolClassPage(Model model) {
 
-        List<SchoolClass> allSchoolClasses = schoolClassService.findAll();
+    @GetMapping("/")
+    public String showSchoolClassPage(Model model, Authentication authentication) {
+
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();;
+
+        List<SchoolClass> allSchoolClasses = schoolClassService.findAllFromOneTeacher(securityUser.getUser());
 
         model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("newSchoolClass", new SchoolClass());
@@ -39,11 +42,14 @@ public class SchoolClassController {
     }
 
     @PostMapping("/")
-    public String newSchoolClass(SchoolClass schoolClassFormData, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "redirect:/";
-        }
+    public String redirectToHome() {
+        return "redirect:/";
+    }
 
+    @PostMapping("/newSchoolClass")
+    public String newSchoolClass(SchoolClass schoolClassFormData, Authentication authentication) {
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        schoolClassFormData.setUser(securityUser.getUser());
         schoolClassService.save(schoolClassFormData);
         return "redirect:/";
     }

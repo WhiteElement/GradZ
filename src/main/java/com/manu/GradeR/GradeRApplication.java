@@ -1,5 +1,6 @@
 package com.manu.GradeR;
 
+import com.manu.GradeR.SchoolClass.SchoolClassRepository;
 import com.manu.GradeR.model.User;
 import com.manu.GradeR.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,9 +18,12 @@ public class GradeRApplication {
 
 
 	@Bean
-	CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder passwordEncoder) {
+	CommandLineRunner commandLineRunner(UserRepository users, SchoolClassRepository schoolClassRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
-			users.save(new User("test", passwordEncoder.encode("password"), "ROLE_TEACHER"));
+			users.save(new User("u1", passwordEncoder.encode("u1"), "ROLE_TEACHER"));
+			users.save(new User("u2", passwordEncoder.encode("u2"), "ROLE_TEACHER"));
+			users.save(new User("u3", passwordEncoder.encode("u3"), "ROLE_TEACHER"));
+
 		};
 	}
 }
