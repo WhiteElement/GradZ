@@ -1,7 +1,7 @@
-package com.manu.GradeR.Student;
+package com.manu.GradeR.model;
 
-import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.SchoolClass.SchoolClass;
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.model.SchoolClass;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

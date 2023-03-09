@@ -1,5 +1,7 @@
-package com.manu.GradeR.Grade;
+package com.manu.GradeR.controller;
 
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

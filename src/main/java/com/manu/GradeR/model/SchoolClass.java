@@ -1,10 +1,6 @@
-package com.manu.GradeR.SchoolClass;
+package com.manu.GradeR.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.GradeTest.GradeTestType;
-import com.manu.GradeR.Student.Student;
-import com.manu.GradeR.model.User;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

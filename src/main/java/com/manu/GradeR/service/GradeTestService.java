@@ -1,9 +1,11 @@
-package com.manu.GradeR.GradeTest;
+package com.manu.GradeR.service;
 
-import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.Grade.GradeService;
-import com.manu.GradeR.SchoolClass.SchoolClass;
-import com.manu.GradeR.Student.Student;
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.model.GradeTest;
+import com.manu.GradeR.model.GradeTestType;
+import com.manu.GradeR.model.SchoolClass;
+import com.manu.GradeR.model.Student;
+import com.manu.GradeR.repository.GradeTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
-package com.manu.GradeR.SchoolClass;
+package com.manu.GradeR.repository;
 
+import com.manu.GradeR.model.SchoolClass;
 import com.manu.GradeR.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

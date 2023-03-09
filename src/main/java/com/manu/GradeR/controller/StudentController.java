@@ -1,10 +1,12 @@
-package com.manu.GradeR.Student;
+package com.manu.GradeR.controller;
 
-import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.Grade.GradeService;
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.SchoolClass.SchoolClass;
-import com.manu.GradeR.SchoolClass.SchoolClassService;
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.model.Student;
+import com.manu.GradeR.service.GradeService;
+import com.manu.GradeR.model.GradeTest;
+import com.manu.GradeR.model.SchoolClass;
+import com.manu.GradeR.service.SchoolClassService;
+import com.manu.GradeR.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

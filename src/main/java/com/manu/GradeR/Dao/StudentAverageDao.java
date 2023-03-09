@@ -1,8 +1,8 @@
 package com.manu.GradeR.Dao;
 
-import com.manu.GradeR.Grade.Grade;
-import com.manu.GradeR.Grade.GradeService;
-import com.manu.GradeR.GradeTest.GradeTestType;
+import com.manu.GradeR.model.Grade;
+import com.manu.GradeR.service.GradeService;
+import com.manu.GradeR.model.GradeTestType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

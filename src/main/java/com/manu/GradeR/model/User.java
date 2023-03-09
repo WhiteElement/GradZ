@@ -1,6 +1,5 @@
 package com.manu.GradeR.model;
 
-import com.manu.GradeR.SchoolClass.SchoolClass;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

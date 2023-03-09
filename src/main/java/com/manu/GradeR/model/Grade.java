@@ -1,7 +1,5 @@
-package com.manu.GradeR.Grade;
+package com.manu.GradeR.model;
 
-import com.manu.GradeR.GradeTest.GradeTest;
-import com.manu.GradeR.Student.Student;
 import jakarta.persistence.*;
 
 @Entity
