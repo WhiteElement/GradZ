@@ -19,7 +19,14 @@
 }
 
 .desc {
-    font-size : 15px;
+    font-size : 13px;
+    font-weight: lighter;
+    font-style: italic;
+    color: #4E4E4E
+}
+
+.clickable {
+    font-weight: normal;
 }
 
 .weighting {
