@@ -1,5 +1,5 @@
 # Gradio
-Gradio ist eine Web-Application, die Lehrern die Möglichkeit bietet alle Noten ihrerer Klassen zu speichern und zu organisieren. Sie erlaubt  ein vollständiges Automatisieren der Durchschnittsberechnungen für jeden Schüler und individuelle Einstellungen darüber, wie Lehrer ihre Arbeiten und Noten gewichten möchten.
+Gradio ist eine Web-Application, die Lehrern die Möglichkeit bietet alle Noten ihrerer Klassen zu speichern und zu organisieren. Nach einer erfolgreichen Registrierung können Lehrer ihre Klassen mit Schülern und Noten anlegen. So ist es nicht nur möglich Klassenarbeiten & Tests, sondern auch mündliche Noten zu verwalten. Die Application bildet dann selbstständig die Durchschnitte der Schüler - sei es schriftlich, mündlich oder auch den Gesamtschnitt- nach den Gewichtungsvorgaben der Lehrperson. Somit ist jederzeit der aktuelle Notenstand eines Schülers zu sehen.
 
 &nbsp;
 &nbsp;
@@ -10,6 +10,7 @@ Gradio ist eine Web-Application, die Lehrern die Möglichkeit bietet alle Noten 
 - Hibernate / Data JPA (Relationships & Entities)
 - Authentication
 - JQuery Ajax & Fetch API
+- Password Encoding
 
 &nbsp;
 &nbsp;
